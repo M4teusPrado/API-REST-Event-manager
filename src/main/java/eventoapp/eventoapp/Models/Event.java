@@ -21,8 +21,8 @@ public class Event implements Serializable{
     private String name;
     private String description;
     private String place;
-    private Date endDate;
     private Date startDate;
+    private Date endDate;
     private String emailContact;
     
     public int getId() {
