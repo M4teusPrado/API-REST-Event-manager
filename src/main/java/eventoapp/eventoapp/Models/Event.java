@@ -1,9 +1,23 @@
 package eventoapp.eventoapp.Models;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Event {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Event implements Serializable{
+    
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY) 
     private int id;
+
     private String name;
     private String description;
     private String place;
@@ -52,5 +66,27 @@ public class Event {
     }
     public void setEmailContact(String emailContact) {
         this.emailContact = emailContact;
+    }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Event other = (Event) obj;
+        if (id != other.id)
+            return false;
+        return true;
     }
 }
