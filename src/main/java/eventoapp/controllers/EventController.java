@@ -3,7 +3,9 @@ package eventoapp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +20,14 @@ public class EventController {
     private EventService eventService;
 
     @GetMapping  
-    public List<EventDTO> getEvents() {
-        return eventService.getEvents();
+    public ResponseEntity<List<EventDTO>> getEvents() {
+        List<EventDTO> list =  eventService.getEvents();
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<EventDTO> getEventById(@PathVariable Long id) {
+        EventDTO eventDTO =  eventService.getEventById(id);
+        return ResponseEntity.ok(eventDTO);
     }
 }
