@@ -42,4 +42,9 @@ public class EventService {
 
         return eventsDTO;
     }
+
+    public void deleteEvent(Long id) {
+        getEventById(id);
+        eventRepository.deleteById(id);
+    }
 }
