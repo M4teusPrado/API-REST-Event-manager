@@ -48,7 +48,7 @@ public class EventService {
         eventRepository.deleteById(id);
     }
 
-    public void insertEvent(Event event) {
-        eventRepository.save(event);
+    public Event insertEvent(Event event) {
+        return eventRepository.save(event);
     }
 }
