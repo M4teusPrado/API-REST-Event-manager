@@ -47,4 +47,8 @@ public class EventService {
         getEventById(id);
         eventRepository.deleteById(id);
     }
+
+    public void insertEvent(Event event) {
+        eventRepository.save(event);
+    }
 }
