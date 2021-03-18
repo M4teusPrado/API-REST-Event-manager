@@ -61,8 +61,8 @@ public class EventService {
             Event event = eventRepository.getOne(id);
 
             event.setPlace(eventUpdateDTO.getPlace());
-           // event.setStartDate(eventUpdateDTO.getStartDate());
-            //event.setEndDate(eventUpdateDTO.getEndDate());
+            event.setStartDate(eventUpdateDTO.getStartDate());
+            event.setEndDate(eventUpdateDTO.getEndDate());
 
             event = eventRepository.save(event);
             return new EventDTO(event);

@@ -1,10 +1,6 @@
 package eventoapp.dto;
 
-
 import java.time.LocalDate;
-
-import eventoapp.models.Event;
-
 
 public class EventUpdateDTO {
 
@@ -12,9 +8,7 @@ public class EventUpdateDTO {
     private LocalDate startDate;
     private LocalDate endDate;
 
-   
-    public EventUpdateDTO(Event event) {
-    }
+
     public String getPlace() {
         return place;
     }
@@ -33,4 +27,7 @@ public class EventUpdateDTO {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+    
+
 }
