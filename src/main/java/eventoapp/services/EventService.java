@@ -68,7 +68,7 @@ public class EventService {
             return new EventDTO(event);
           }
           catch(EntityNotFoundException ex){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado");
           }
     }
 }
