@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -50,5 +52,28 @@ public class EventService {
 
     public Event insertEvent(Event event) {
         return eventRepository.save(event);
+    }
+
+    public EventDTO updateEvent(Long id, EventDTO eventDTO) 
+    {
+        try
+        {
+            Event event = eventRepository.getOne(id);
+
+            event.setName(eventDTO.getName());
+            event.setDescription(eventDTO.getDescription());
+            event.setPlace(eventDTO.getPlace());
+            event.setStartDate(eventDTO.getStartDate());
+            event.setEndDate(eventDTO.getEndDate());
+            event.setEmailContact(eventDTO.getEmailContact());
+            event = eventRepository.save(event);
+
+            return new EventDTO(event);
+        }
+        catch(EntityNotFoundException ex)
+        {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found");
+        }
+
     }
 }
