@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import eventoapp.models.Event;
 import eventoapp.dto.EventDTO;
+import eventoapp.dto.EventUpdateDTO;
 import eventoapp.services.EventService;
 
 @RestController
@@ -52,10 +53,10 @@ public class EventController {
         return ResponseEntity.created(uri).body(aux);
     }
 
-    @PutMapping
-    public Void updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO)
+    @PutMapping("{id}")
+    public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody EventUpdateDTO eventUpdateDTO)
     {
-        eventService.updateEvent(id, eventDTO);
-        return null;
+        EventDTO dto = eventService.updateEvent(id, eventUpdateDTO); 
+		return ResponseEntity.ok().body(dto);
     }
 }

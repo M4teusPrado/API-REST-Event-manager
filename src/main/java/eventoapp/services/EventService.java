@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import eventoapp.dto.EventDTO;
+import eventoapp.dto.EventUpdateDTO;
 import eventoapp.models.Event;
 import eventoapp.repositories.EventRepository;
 
@@ -54,26 +55,20 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public EventDTO updateEvent(Long id, EventDTO eventDTO) 
+    public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDTO) 
     {
-        try
-        {
+        try{
             Event event = eventRepository.getOne(id);
 
-            event.setName(eventDTO.getName());
-            event.setDescription(eventDTO.getDescription());
-            event.setPlace(eventDTO.getPlace());
-            event.setStartDate(eventDTO.getStartDate());
-            event.setEndDate(eventDTO.getEndDate());
-            event.setEmailContact(eventDTO.getEmailContact());
+            event.setPlace(eventUpdateDTO.getPlace());
+           // event.setStartDate(eventUpdateDTO.getStartDate());
+            //event.setEndDate(eventUpdateDTO.getEndDate());
+
             event = eventRepository.save(event);
-
             return new EventDTO(event);
-        }
-        catch(EntityNotFoundException ex)
-        {
+          }
+          catch(EntityNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found");
-        }
-
+          }
     }
 }
