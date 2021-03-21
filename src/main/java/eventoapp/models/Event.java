@@ -11,7 +11,6 @@ import javax.persistence.Id;
 @Entity
 public class Event implements Serializable{
     
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -88,8 +87,5 @@ public class Event implements Serializable{
         } else if (!id.equals(other.id))
             return false;
         return true;
-    }
-
-
-   
+    }  
 }
