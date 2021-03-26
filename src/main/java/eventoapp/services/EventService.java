@@ -1,5 +1,6 @@
 package eventoapp.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,8 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,9 +25,20 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
     
-    public List<EventDTO> getEvents() {
-        List<Event> events = eventRepository.findAll();
-        return toDTOList(events);
+    public Page<EventDTO> getEvents(
+                                    PageRequest pageRequest, 
+                                    String name, 
+                                    String place, 
+                                    String description, 
+                                    LocalDate startDate
+                                    ){
+        Page<Event> events = eventRepository.find(
+                                                pageRequest,
+                                                name.trim(),
+                                                place.trim(),
+                                                description.trim()
+                                                );
+        return events.map( event -> new EventDTO(event));
     }
 
     public EventDTO getEventById(Long id) {
