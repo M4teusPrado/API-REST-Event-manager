@@ -30,13 +30,17 @@ public class EventService {
                                     String name, 
                                     String place, 
                                     String description, 
-                                    LocalDate startDate
+                                    String startDate
                                     ){
+
+        LocalDate startDateAux = LocalDate.parse(startDate);
+
         Page<Event> events = eventRepository.find(
                                                 pageRequest,
                                                 name.trim(),
                                                 place.trim(),
-                                                description.trim()
+                                                description.trim(),
+                                                startDateAux
                                                 );
         return events.map( event -> new EventDTO(event));
     }

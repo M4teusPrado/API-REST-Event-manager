@@ -1,7 +1,6 @@
 package eventoapp.controllers;
 
 import java.net.URI;
-import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +39,7 @@ public class EventController {
         @RequestParam(value = "name",           defaultValue = "") String name,
         @RequestParam(value = "place",          defaultValue = "") String place,
         @RequestParam(value = "description",    defaultValue = "") String description,
-        @RequestParam(value = "startDate",      defaultValue = "") LocalDate startDate
+        @RequestParam(value = "startDate",      defaultValue = "") String startDate
     ){
 
         PageRequest pageRequest = PageRequest.of(
@@ -51,11 +50,11 @@ public class EventController {
                                                 );
         
         Page<EventDTO> list =  eventService.getEvents(
-                                                    pageRequest,
-                                                    name,
-                                                    place,
-                                                    description,
-                                                    startDate
+                                                pageRequest,
+                                                name,
+                                                place,
+                                                description,
+                                                startDate
                                                     );
         return ResponseEntity.ok(list);
     }
