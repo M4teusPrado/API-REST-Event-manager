@@ -33,7 +33,7 @@ public class EventService {
                                     String startDate
                                     ){
   
-        LocalDate startDateAux = f;
+        LocalDate startDateAux = LocalDate.parse(startDate);
         
         Page<Event> events = eventRepository.find(
                                                 pageRequest,
