@@ -1,6 +1,7 @@
 package eventoapp.dto;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import eventoapp.models.Event;
 
@@ -11,8 +12,9 @@ public class EventDTO {
     private String place;
     private LocalDate startDate;
     private LocalDate endDate;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private String emailContact;
-
 
     public String getName() {
         return name;
@@ -51,12 +53,27 @@ public class EventDTO {
         this.emailContact = emailContact;
     }
 
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
     public EventDTO(Event event) {
         this.name = event.getName();
         this.description = event.getDescription();
         this.place = event.getPlace();
         this.startDate = event.getStartDate();
         this.endDate = event.getEndDate();
+        this.startTime = event.getStartTime();
+        this.endTime = event.getEndTime();
         this.emailContact = event.getEmailContact();
     }
 }

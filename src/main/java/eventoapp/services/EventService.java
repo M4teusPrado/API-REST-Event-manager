@@ -1,6 +1,7 @@
 package eventoapp.services;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +71,28 @@ public class EventService {
     }
 
     public Event insertEvent(Event event) {
+
+        verify(
+            event.getStartDate(),
+            event.getEndDate(),
+            event.getStartTime(),
+            event.getEndTime()
+        );
+       
         return eventRepository.save(event);
+    }
+
+    private void verify( LocalDate startDate, LocalDate endDate, LocalTime startTime,LocalTime endTime) {
+
+        if(startDate.isAfter(endDate)){ 
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Data incoerente");
+        }
+
+        if(startDate.isEqual(endDate)) {  
+            if(startTime.compareTo(endTime) == 1){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Horario incoerente");
+            }
+        }
     }
 
     public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDTO) 
@@ -79,8 +101,7 @@ public class EventService {
             Event event = eventRepository.getOne(id);
 
             event.setPlace(eventUpdateDTO.getPlace());
-            event.setStartDate(eventUpdateDTO.getStartDate());
-            event.setEndDate(eventUpdateDTO.getEndDate());
+            event.setDescription(eventUpdateDTO.getDescription());
 
             event = eventRepository.save(event);
             return new EventDTO(event);

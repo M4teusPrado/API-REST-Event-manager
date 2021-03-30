@@ -2,6 +2,7 @@ package eventoapp.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,8 +21,13 @@ public class Event implements Serializable{
     private String name;
     private String description;
     private String place;
+    //Dia
     private LocalDate startDate;
     private LocalDate endDate;
+    //Horario
+    private LocalTime startTime;
+    private LocalTime endTime;
+
     private String emailContact;
     
     public Long getId() {
@@ -64,6 +70,22 @@ public class Event implements Serializable{
     public void setEmailContact(String emailContact) {
         this.emailContact = emailContact;
     }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }  
     
     @Override
     public int hashCode() {
@@ -87,5 +109,5 @@ public class Event implements Serializable{
         } else if (!id.equals(other.id))
             return false;
         return true;
-    }  
+    }
 }

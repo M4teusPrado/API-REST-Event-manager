@@ -55,7 +55,7 @@ public class EventController {
                                                 place,
                                                 description,
                                                 startDate
-                                                    );
+                                                );
         return ResponseEntity.ok(list);
     }
 

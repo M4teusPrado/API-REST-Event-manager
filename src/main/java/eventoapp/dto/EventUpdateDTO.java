@@ -1,12 +1,11 @@
 package eventoapp.dto;
 
-import java.time.LocalDate;
+
 
 public class EventUpdateDTO {
 
     private String place;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String description;
 
 
     public String getPlace() {
@@ -15,19 +14,11 @@ public class EventUpdateDTO {
     public void setPlace(String place) {
         this.place = place;
     }
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
 
-    
-
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }   
 }
