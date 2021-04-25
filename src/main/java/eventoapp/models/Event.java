@@ -9,7 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Event implements Serializable{
     
     private static final long serialVersionUID = 1L;
@@ -21,71 +26,11 @@ public class Event implements Serializable{
     private String name;
     private String description;
     private String place;
-    //Dia
     private LocalDate startDate;
     private LocalDate endDate;
-    //Horario
     private LocalTime startTime;
     private LocalTime endTime;
-
     private String emailContact;
-    
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public String getPlace() {
-        return place;
-    }
-    public void setPlace(String place) {
-        this.place = place;
-    }
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-    public String getEmailContact() {
-        return emailContact;
-    }
-    public void setEmailContact(String emailContact) {
-        this.emailContact = emailContact;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }  
     
     @Override
     public int hashCode() {
@@ -94,6 +39,7 @@ public class Event implements Serializable{
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
