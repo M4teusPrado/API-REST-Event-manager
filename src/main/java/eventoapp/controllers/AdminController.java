@@ -4,9 +4,11 @@ import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +30,6 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAdminById(id));
     }
 
-    
     @PostMapping()
     public ResponseEntity<Admin> insertAdmin(@RequestBody Admin admin)
     {
@@ -36,5 +37,18 @@ public class AdminController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aux.getId()).toUri();
         return ResponseEntity.created(uri).body(aux);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) {
+        adminService.deleteAdmin(id);
+        return ResponseEntity.noContent().build();
+    }
     
+    @PutMapping("{id}")
+    public ResponseEntity<AdminDTO> updateAdmin(@PathVariable Long id, @RequestBody AdminDTO adminDTO)
+    {
+        AdminDTO dto = adminService.updateEvent(id, adminDTO);
+		return ResponseEntity.ok().body(dto);
+    }
+
 }

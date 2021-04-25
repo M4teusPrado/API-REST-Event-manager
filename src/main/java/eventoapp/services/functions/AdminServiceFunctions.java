@@ -3,6 +3,8 @@ package eventoapp.services.functions;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -43,6 +45,8 @@ public class AdminServiceFunctions implements AdminService {
 
     @Override
     public void deleteAdmin(Long id) {
+        getAdminById(id);
+        adminRepository.deleteById(id);
     }
 
     @Override
@@ -52,7 +56,20 @@ public class AdminServiceFunctions implements AdminService {
 
     @Override
     public AdminDTO updateEvent(Long id, AdminDTO adminDTO) {
-        return null;
+
+        try {
+            Admin admin = adminRepository.getOne(id);
+
+            admin.setName(adminDTO.getName());
+            admin.setEmail(adminDTO.getEmail());
+            admin.setPhoneNumber(adminDTO.getPhoneNumber());
+    
+            admin = adminRepository.save(admin);
+            return new AdminDTO(admin);
+        } 
+        catch(EntityNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Administrador não encontrado");
+        }
     }
 
 }

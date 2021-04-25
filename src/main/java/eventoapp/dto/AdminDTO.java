@@ -17,4 +17,6 @@ public class AdminDTO {
         this.email = admin.getEmail();
         this.phoneNumber = admin.getPhoneNumber();
     }
+
+    public AdminDTO() {}
 }
