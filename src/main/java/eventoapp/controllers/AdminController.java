@@ -28,6 +28,7 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAdminById(id));
     }
 
+    
     @PostMapping()
     public ResponseEntity<Admin> insertAdmin(@RequestBody Admin admin)
     {
