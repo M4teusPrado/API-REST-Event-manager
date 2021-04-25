@@ -3,12 +3,11 @@ package eventoapp.services;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
 
 import eventoapp.dto.AdminDTO;
 import eventoapp.models.Admin;
 
-@Service
+
 public interface AdminService {
        
     public Page<AdminDTO> getAdmins();

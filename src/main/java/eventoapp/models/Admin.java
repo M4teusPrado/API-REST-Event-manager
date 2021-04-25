@@ -21,17 +21,14 @@ public class Admin implements Serializable {
     @GeneratedValue( strategy = GenerationType.IDENTITY) 
     private Long id;
     private String name;
-    private String emai;
+    private String email;
     private String phoneNumber;
 
-    public Admin () {
+    public Admin () {}
 
-    }
-
-    public Admin(Long id, String name, String emai, String phoneNumber) {
-        this.id = id;
+    public Admin(String name, String email, String phoneNumber) {
         this.name = name;
-        this.emai = emai;
+        this.email = email;
         this.phoneNumber = phoneNumber;
     }
 

@@ -1,5 +1,6 @@
 package eventoapp.dto;
 
+import eventoapp.models.Admin;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,14 +9,12 @@ import lombok.Setter;
 public class AdminDTO {
     
     private String name;
-    private String emai;
+    private String email;
     private String phoneNumber;
 
-    public AdminDTO() {
-    }
-    public AdminDTO(String name, String emai, String phoneNumber) {
-        this.name = name;
-        this.emai = emai;
-        this.phoneNumber = phoneNumber;
+    public AdminDTO(Admin admin) {
+        this.name = admin.getName();
+        this.email = admin.getEmail();
+        this.phoneNumber = admin.getPhoneNumber();
     }
 }
