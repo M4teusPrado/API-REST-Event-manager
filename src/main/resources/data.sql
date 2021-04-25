@@ -105,3 +105,45 @@ INSERT INTO
         '2022-01-01',
         'anonovo@gmail.com'
     );
+
+--Insert de administradores
+
+
+INSERT INTO 
+    Admin (
+        name,
+        email,
+        phone_Number
+        
+    ) 
+    VALUES (
+        'Mateus',
+        'mateus.silva@gmail.com',
+        '15 98804-7229'
+    );
+
+INSERT INTO 
+    Admin (
+        name,
+        email,
+        phone_Number
+        
+    ) 
+    VALUES (
+        'Felipe',
+        'felipeCarvalho@gmail.com',
+        '15 99725-3228'
+    );
+
+INSERT INTO 
+    Admin (
+        name,
+        email,
+        phone_Number
+        
+    ) 
+    VALUES (
+        'Joao',
+        'Joao.Paulo@gmail.com',
+        '15 99764-4228'
+    );
