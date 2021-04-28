@@ -44,7 +44,7 @@ public class AdminController {
         return ResponseEntity.noContent().build();
     }
     
-    @PutMapping("{id}")
+    @PutMapping("{id}") 
     public ResponseEntity<AdminDTO> updateAdmin(@PathVariable Long id, @RequestBody AdminDTO adminDTO)
     {
         AdminDTO dto = adminService.updateEvent(id, adminDTO);
