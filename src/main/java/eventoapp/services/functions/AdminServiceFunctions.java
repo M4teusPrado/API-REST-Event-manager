@@ -26,6 +26,7 @@ public class AdminServiceFunctions implements AdminService {
     public Page<AdminDTO> getAdmins() {
         return null;
     }
+    
 
     @Override
     public AdminDTO getAdminById(Long id) {
