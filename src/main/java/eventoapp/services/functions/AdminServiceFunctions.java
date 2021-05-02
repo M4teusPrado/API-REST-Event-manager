@@ -1,12 +1,12 @@
 package eventoapp.services.functions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,16 +23,14 @@ public class AdminServiceFunctions implements AdminService {
     private AdminRepository adminRepository;
 
     @Override
-    public Page<AdminDTO> getAdmins() {
-        return null;
+    public List<AdminDTO> getAdmins() {
+        List<Admin> admins = adminRepository.findAll();
+        return toDTOList(admins);
     }
-    
 
     @Override
     public AdminDTO getAdminById(Long id) {
-        
         Optional<Admin> op = adminRepository.findById(id);
-        
         Admin admin = op.orElseThrow( () -> new ResponseStatusException( 
             HttpStatus.NOT_FOUND, "Administrador não encontrado"));
         return new AdminDTO(admin);
@@ -41,7 +39,13 @@ public class AdminServiceFunctions implements AdminService {
     @Override
     public List<AdminDTO> toDTOList(List<Admin> admins) {
 
-        return null;
+        List<AdminDTO> adminsDTO = new ArrayList<AdminDTO>();
+
+        for (Admin admin : admins) {
+            AdminDTO adminDTO = new AdminDTO(admin);
+            adminsDTO.add(adminDTO);
+        }
+        return adminsDTO;
     }
 
     @Override
@@ -51,7 +55,9 @@ public class AdminServiceFunctions implements AdminService {
     }
 
     @Override
-    public Admin insertAdmin(Admin admin) {
+    public Admin insertAdmin(AdminDTO adminDTO) {
+        Admin admin = new Admin();
+        adminDTOtoAdmin(admin, adminDTO);
         return adminRepository.save(admin);
     }
 
@@ -60,11 +66,7 @@ public class AdminServiceFunctions implements AdminService {
 
         try {
             Admin admin = adminRepository.getOne(id);
-
-            admin.setName(adminDTO.getName());
-            admin.setEmail(adminDTO.getEmail());
-            admin.setPhoneNumber(adminDTO.getPhoneNumber());
-    
+            adminDTOtoAdmin(admin, adminDTO);
             admin = adminRepository.save(admin);
             return new AdminDTO(admin);
         } 
@@ -73,4 +75,10 @@ public class AdminServiceFunctions implements AdminService {
         }
     }
 
+    @Override
+    public void adminDTOtoAdmin(Admin admin, AdminDTO adminDTO) {
+        admin.setName(adminDTO.getName());
+        admin.setEmail(adminDTO.getEmail());
+        admin.setPhoneNumber(adminDTO.getPhoneNumber());
+    }
 }

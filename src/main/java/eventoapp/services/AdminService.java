@@ -2,15 +2,13 @@ package eventoapp.services;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-
 import eventoapp.dto.AdminDTO;
 import eventoapp.models.Admin;
 
 
 public interface AdminService {
        
-    public Page<AdminDTO> getAdmins();
+    public List<AdminDTO> getAdmins();
 
     public AdminDTO getAdminById(Long id);
 
@@ -18,7 +16,10 @@ public interface AdminService {
 
     public void deleteAdmin(Long id);
 
-    public Admin insertAdmin(Admin admin);
+    public Admin insertAdmin(AdminDTO adminDTO);
 
     public AdminDTO updateEvent(Long id, AdminDTO adminDTO);
+
+    public void adminDTOtoAdmin(Admin admin, AdminDTO adminDTO);
+
 }

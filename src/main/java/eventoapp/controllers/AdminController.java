@@ -1,6 +1,7 @@
 package eventoapp.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +26,20 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    @GetMapping()
+    public List<AdminDTO> getAdmins() {
+        return adminService.getAdmins();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<AdminDTO> getAdminById(@PathVariable Long id ) {
         return ResponseEntity.ok(adminService.getAdminById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<Admin> insertAdmin(@RequestBody Admin admin)
+    public ResponseEntity<Admin> insertAdmin(@RequestBody AdminDTO adminDTO)
     {
-        Admin aux = adminService.insertAdmin(admin);
+        Admin aux = adminService.insertAdmin(adminDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aux.getId()).toUri();
         return ResponseEntity.created(uri).body(aux);
     }

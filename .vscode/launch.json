@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-EventoappApplication<eventoapp>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "eventoapp.eventoapp.EventoappApplication",
+            "projectName": "eventoapp",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-EventoappApplication<eventoapp>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "eventoapp.EventoappApplication",
+            "projectName": "eventoapp",
+            "args": ""
+        }
+    ]
+}
