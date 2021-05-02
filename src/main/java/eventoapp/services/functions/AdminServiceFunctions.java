@@ -37,18 +37,6 @@ public class AdminServiceFunctions implements AdminService {
     }
 
     @Override
-    public List<AdminDTO> toDTOList(List<Admin> admins) {
-
-        List<AdminDTO> adminsDTO = new ArrayList<AdminDTO>();
-
-        for (Admin admin : admins) {
-            AdminDTO adminDTO = new AdminDTO(admin);
-            adminsDTO.add(adminDTO);
-        }
-        return adminsDTO;
-    }
-
-    @Override
     public void deleteAdmin(Long id) {
         getAdminById(id);
         adminRepository.deleteById(id);
@@ -80,5 +68,17 @@ public class AdminServiceFunctions implements AdminService {
         admin.setName(adminDTO.getName());
         admin.setEmail(adminDTO.getEmail());
         admin.setPhoneNumber(adminDTO.getPhoneNumber());
+    }
+
+    @Override
+    public List<AdminDTO> toDTOList(List<Admin> admins) {
+
+        List<AdminDTO> adminsDTO = new ArrayList<AdminDTO>();
+
+        for (Admin admin : admins) {
+            AdminDTO adminDTO = new AdminDTO(admin);
+            adminsDTO.add(adminDTO);
+        }
+        return adminsDTO;
     }
 }

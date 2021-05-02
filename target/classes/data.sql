@@ -147,3 +147,45 @@ INSERT INTO
         'Joao.Paulo@gmail.com',
         '15 99764-4228'
     );
+
+    --Insert de participantes
+
+
+INSERT INTO 
+    Attendee (
+        name,
+        email,
+        balance
+        
+    ) 
+    VALUES (
+        'Mateus',
+        'mateus.silva@gmail.com',
+        77
+    );
+
+INSERT INTO 
+    Attendee (
+        name,
+        email,
+        balance
+        
+    ) 
+    VALUES (
+        'Felipe',
+        'felipeCarvalho@gmail.com',
+        95.7
+    );
+
+INSERT INTO 
+    Attendee (
+        name,
+        email,
+        balance
+        
+    ) 
+    VALUES (
+        'Joao',
+        'Joao.Paulo@gmail.com',
+        185.78
+    );

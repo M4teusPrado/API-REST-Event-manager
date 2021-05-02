@@ -1,6 +1,7 @@
 package eventoapp.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +26,20 @@ public class AttendeeController {
     @Autowired
     private AttendeeService attendeeService;
 
+    @GetMapping()
+    public List<AttendeeDTO> getAttendees() {
+        return attendeeService.getAttendees();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<AttendeeDTO> getAttendeeById(@PathVariable Long id ) {
         return ResponseEntity.ok(attendeeService.getAttendeeById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<Attendee> insertAttendee(@RequestBody Attendee Attendee)
+    public ResponseEntity<Attendee> insertAttendee(@RequestBody AttendeeDTO AttendeeDTO)
     {
-        Attendee aux = attendeeService.insertAttendee(Attendee);
+        Attendee aux = attendeeService.insertAttendee(AttendeeDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aux.getId()).toUri();
         return ResponseEntity.created(uri).body(aux);
     }

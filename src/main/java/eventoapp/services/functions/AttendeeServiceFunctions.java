@@ -1,12 +1,12 @@
 package eventoapp.services.functions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,55 +20,69 @@ import eventoapp.services.AttendeeService;
 public class AttendeeServiceFunctions implements AttendeeService {
 
     @Autowired
-    private AttendeeRepository AttendeeRepository;
+    private AttendeeRepository attendeeRepository;
 
     @Override
-    public Page<AttendeeDTO> getAttendees() {
-        return null;
+    public List<AttendeeDTO> getAttendees() {
+        List<Attendee> attendees = attendeeRepository.findAll();
+        return toDTOList(attendees);
     }
 
     @Override
     public AttendeeDTO getAttendeeById(Long id) {
         
-        Optional<Attendee> op = AttendeeRepository.findById(id);
+        Optional<Attendee> op = attendeeRepository.findById(id);
         
-        Attendee Attendee = op.orElseThrow( () -> new ResponseStatusException( 
+        Attendee attendee = op.orElseThrow( () -> new ResponseStatusException( 
             HttpStatus.NOT_FOUND, "Participante não encontrado"));
-        return new AttendeeDTO(Attendee);
-    }
-
-    @Override
-    public List<AttendeeDTO> toDTOList(List<Attendee> Attendees) {
-        return null;
+        return new AttendeeDTO(attendee);
     }
 
     @Override
     public void deleteAttendee(Long id) {
         getAttendeeById(id);
-        AttendeeRepository.deleteById(id);
+        attendeeRepository.deleteById(id);
     }
 
     @Override
-    public Attendee insertAttendee(Attendee Attendee) {
-        return AttendeeRepository.save(Attendee);
+    public Attendee insertAttendee(AttendeeDTO attendeeDTO) {
+        Attendee attendee = new Attendee();
+        attendeeDTOtoAttendee(attendee, attendeeDTO);
+        return attendeeRepository.save(attendee);
     }
 
     @Override
-    public AttendeeDTO updateEvent(Long id, AttendeeDTO AttendeeDTO) {
+    public AttendeeDTO updateEvent(Long id, AttendeeDTO attendeeDTO) {
 
         try {
-            Attendee Attendee = AttendeeRepository.getOne(id);
-
-            Attendee.setName(AttendeeDTO.getName());
-            Attendee.setEmail(AttendeeDTO.getEmail());
-            Attendee.setBalance(AttendeeDTO.getBalance());
-    
-            Attendee = AttendeeRepository.save(Attendee);
-            return new AttendeeDTO(Attendee);
+            Attendee attendee = attendeeRepository.getOne(id);
+            attendeeDTOtoAttendee(attendee, attendeeDTO);
+            attendee = attendeeRepository.save(attendee);
+            return new AttendeeDTO(attendee);
         } 
         catch(EntityNotFoundException ex){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Attendeeistrador não encontrado");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante não encontrado");
         }
+    }
+
+    
+    @Override
+    public void attendeeDTOtoAttendee(Attendee attendee, AttendeeDTO attendeeDTO) {
+        attendee.setName(attendeeDTO.getName());
+        attendee.setEmail(attendeeDTO.getEmail());
+        attendee.setBalance(attendeeDTO.getBalance());
+    }
+
+
+    @Override
+    public List<AttendeeDTO> toDTOList(List<Attendee> attendees) {
+        List<AttendeeDTO> attendeesDTO = new ArrayList<AttendeeDTO>();
+
+        for (Attendee attendee : attendees) {
+            AttendeeDTO attendeeDTO = new AttendeeDTO(attendee);
+            attendeesDTO.add(attendeeDTO);
+        }
+        return attendeesDTO;
     }
 
 }
