@@ -56,5 +56,4 @@ public class AdminController {
         AdminDTO dto = adminService.updateEvent(id, adminDTO);
 		return ResponseEntity.ok().body(dto);
     }
-
 }
