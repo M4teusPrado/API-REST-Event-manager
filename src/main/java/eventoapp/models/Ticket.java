@@ -1,46 +1,40 @@
 package eventoapp.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
-import lombok.AccessLevel;
+import eventoapp.models.enums.TicketType;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter
 @Setter
-
-public class Place implements Serializable {
-    
-    private static final long serialVersionUID = 1L;
+@Getter
+public class Ticket implements Serializable {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY) 
     private Long id;
-    private String name; 
-    private String address;
+    
+    @Enumerated(value = EnumType.STRING)
+    private TicketType type;
+    private Instant date;
+    private Double price;
+    private Attendee attendee;
+    private Event event;
 
-    @ManyToMany()
-    @Setter(AccessLevel.NONE)
-    private List<Event> events = new ArrayList<Event>();    
+    public Ticket() { }
 
-    public void addEvent(Event event) {
-        this.events.add(event); 
-    }
-
-    public Place() { }
-
-    public Place(String name, String address) {
-        this.name = name;
-        this.address = address;
+    public Ticket(TicketType type, Instant date, Double price, Event event, Attendee attendee) {
+        this.type = type;
+        this.date = date;
+        this.price = price;
+        this.event = event;
+        this.attendee = attendee;
     }
 
     @Override
@@ -59,7 +53,7 @@ public class Place implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Place other = (Place) obj;
+        Ticket other = (Ticket) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -67,4 +61,7 @@ public class Place implements Serializable {
             return false;
         return true;
     }
+
+    
+    
 }

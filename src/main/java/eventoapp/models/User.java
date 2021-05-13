@@ -1,16 +1,13 @@
 package eventoapp.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-import lombok.AccessLevel;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,29 +15,23 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class Place implements Serializable {
-    
+@Inheritance( strategy = InheritanceType.JOINED )
+public class User implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY) 
     private Long id;
-    private String name; 
-    private String address;
+    private String name;
+    private String email;
 
-    @ManyToMany()
-    @Setter(AccessLevel.NONE)
-    private List<Event> events = new ArrayList<Event>();    
+    public User() { }
 
-    public void addEvent(Event event) {
-        this.events.add(event); 
-    }
-
-    public Place() { }
-
-    public Place(String name, String address) {
+    public User(Long id, String name, String email) {
+        this.id = id;
         this.name = name;
-        this.address = address;
+        this.email = email;
     }
 
     @Override
@@ -59,7 +50,7 @@ public class Place implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Place other = (Place) obj;
+        User other = (User) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -67,4 +58,9 @@ public class Place implements Serializable {
             return false;
         return true;
     }
+
+    
+    
+
+    
 }

@@ -23,7 +23,7 @@ public class EventDTO {
     public EventDTO(Event event) {
         this.name = event.getName();
         this.description = event.getDescription();
-        this.place = event.getPlace();
+        //this.place = event.getPlace();
         this.startDate = event.getStartDate();
         this.endDate = event.getEndDate();
         this.startTime = event.getStartTime();
