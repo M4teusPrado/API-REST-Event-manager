@@ -1,25 +1,25 @@
-// package eventoapp.services;
+package eventoapp.services;
 
-// import java.util.List;
-
-
-// import eventoapp.dto.AttendeeDTO;
-// import eventoapp.models.Attendee;
+import java.util.List;
 
 
-// public interface AttendeeService {
+import eventoapp.dto.AttendeeDTO;
+import eventoapp.models.Attendee;
+
+
+public interface AttendeeService {
        
-//     public List<AttendeeDTO> getAttendees();
+    public List<AttendeeDTO> getAttendees();
 
-//     public AttendeeDTO getAttendeeById(Long id);
+    public AttendeeDTO getAttendeeById(Long id);
 
-//     public List<AttendeeDTO> toDTOList(List<Attendee> Attendees);
+    public List<AttendeeDTO> toDTOList(List<Attendee> Attendees);
 
-//     public void attendeeDTOtoAttendee(Attendee attendee, AttendeeDTO attendeeDTO);
+    public void attendeeDTOtoAttendee(Attendee attendee, AttendeeDTO attendeeDTO);
 
-//     public void deleteAttendee(Long id);
+    public void deleteAttendee(Long id);
 
-//     public Attendee insertAttendee(AttendeeDTO AttendeeDTO);
+    public Attendee insertAttendee(AttendeeDTO AttendeeDTO);
 
-//     public AttendeeDTO updateEvent(Long id, AttendeeDTO AttendeeDTO);
-// }
+    public AttendeeDTO updateEvent(Long id, AttendeeDTO AttendeeDTO);
+}
