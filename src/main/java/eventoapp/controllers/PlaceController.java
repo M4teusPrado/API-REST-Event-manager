@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import eventoapp.dto.PlaceDTO;
+import eventoapp.dto.PlaceGetDTO;
 import eventoapp.models.Place;
 import eventoapp.services.PlaceService;
 
@@ -27,12 +28,12 @@ public class PlaceController {
     private PlaceService placeService;
 
     @GetMapping()
-    public List<PlaceDTO> getPlaces() {
+    public List<PlaceGetDTO> getPlaces() {
         return placeService.getPlaces();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlaceDTO> getPlaceById(@PathVariable Long id ) {
+    public ResponseEntity<PlaceGetDTO> getPlaceById(@PathVariable Long id ) {
         return ResponseEntity.ok(placeService.getPlaceById(id));
     }
 

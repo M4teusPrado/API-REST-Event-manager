@@ -1,7 +1,10 @@
 package eventoapp.services.functions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import eventoapp.dto.PlaceDTO;
+import eventoapp.dto.PlaceGetDTO;
 import eventoapp.models.Place;
 import eventoapp.repositories.PlaceRepository;
 import eventoapp.services.PlaceService;
@@ -20,22 +24,28 @@ public class PlaceServiceFunctions implements PlaceService {
     private PlaceRepository placeRepository;
 
     @Override
-    public List<PlaceDTO> getPlaces() {
+    public List<PlaceGetDTO> getPlaces() {
         List<Place> places = placeRepository.findAll();
         return toDTOList(places);
     }
 
     @Override
-    public PlaceDTO getPlaceById(Long id) {
+    public PlaceGetDTO getPlaceById(Long id) {
         Optional<Place> op = placeRepository.findById(id);
         Place place = op.orElseThrow( () -> new ResponseStatusException( 
             HttpStatus.NOT_FOUND, "Local não encontrado"));
-        return new PlaceDTO(place);
+        return new PlaceGetDTO(place);
     }
 
     @Override
-    public List<PlaceDTO> toDTOList(List<Place> places) {
-        return null;
+    public List<PlaceGetDTO> toDTOList(List<Place> places) {
+        List<PlaceGetDTO> placesDTO = new ArrayList<PlaceGetDTO>();
+
+        for (Place place : places) {
+            PlaceGetDTO placeDTO = new PlaceGetDTO(place);
+            placesDTO.add(placeDTO);
+        }
+        return placesDTO;
     }
 
     @Override
@@ -53,7 +63,15 @@ public class PlaceServiceFunctions implements PlaceService {
 
     @Override
     public PlaceDTO updateEvent(Long id, PlaceDTO placeDTO) {
-        return null;
+        try {
+            Place place = placeRepository.getOne(id);
+            placeDTOtoPlace(place, placeDTO);
+            place = placeRepository.save(place);
+            return new  PlaceDTO(place);
+        } 
+        catch(EntityNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Participante não encontrado");
+        }
     }
 
     @Override

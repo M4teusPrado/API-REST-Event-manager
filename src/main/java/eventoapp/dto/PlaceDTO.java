@@ -11,13 +11,11 @@ public class PlaceDTO {
     private String name; 
     private String address;
 
-    public PlaceDTO() { }
+    public PlaceDTO() {}
 
-    public PlaceDTO(String name, String address) {
-        this.name = name;
-        this.address = address;
+    public PlaceDTO(Place place) {
+        this.name = place.getName();
+        this.address = place.getAddress();
     }
 
-	public PlaceDTO(Place place) {
-	}
 }
