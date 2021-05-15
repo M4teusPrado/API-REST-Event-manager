@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import eventoapp.dto.AttendeeDTO;
+import eventoapp.dto.AttendeeGetDTO;
 import eventoapp.models.Attendee;
 import eventoapp.repositories.AttendeeRepository;
 import eventoapp.services.AttendeeService;
@@ -23,19 +24,19 @@ public class AttendeeServiceFunctions implements AttendeeService {
     private AttendeeRepository attendeeRepository;
 
     @Override
-    public List<AttendeeDTO> getAttendees() {
+    public List<AttendeeGetDTO> getAttendees() {
         List<Attendee> attendees = attendeeRepository.findAll();
         return toDTOList(attendees);
     }
 
     @Override
-    public AttendeeDTO getAttendeeById(Long id) {
+    public AttendeeGetDTO getAttendeeById(Long id) {
         
         Optional<Attendee> op = attendeeRepository.findById(id);
         
         Attendee attendee = op.orElseThrow( () -> new ResponseStatusException( 
             HttpStatus.NOT_FOUND, "Participante não encontrado"));
-        return new AttendeeDTO(attendee);
+        return new AttendeeGetDTO(attendee);
     }
 
     @Override
@@ -75,11 +76,11 @@ public class AttendeeServiceFunctions implements AttendeeService {
 
 
     @Override
-    public List<AttendeeDTO> toDTOList(List<Attendee> attendees) {
-        List<AttendeeDTO> attendeesDTO = new ArrayList<AttendeeDTO>();
+    public List<AttendeeGetDTO> toDTOList(List<Attendee> attendees) {
+        List<AttendeeGetDTO> attendeesDTO = new ArrayList<AttendeeGetDTO>();
 
         for (Attendee attendee : attendees) {
-            AttendeeDTO attendeeDTO = new AttendeeDTO(attendee);
+            AttendeeGetDTO attendeeDTO = new AttendeeGetDTO(attendee);
             attendeesDTO.add(attendeeDTO);
         }
         return attendeesDTO;

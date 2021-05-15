@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import eventoapp.dto.AttendeeDTO;
+import eventoapp.dto.AttendeeGetDTO;
 import eventoapp.models.Attendee;
 import eventoapp.services.AttendeeService;
 
@@ -27,12 +28,12 @@ public class AttendeeController {
     private AttendeeService attendeeService;
 
     @GetMapping()
-    public List<AttendeeDTO> getAttendees() {
+    public List<AttendeeGetDTO> getAttendees() {
         return attendeeService.getAttendees();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AttendeeDTO> getAttendeeById(@PathVariable Long id ) {
+    public ResponseEntity<AttendeeGetDTO> getAttendeeById(@PathVariable Long id ) {
         return ResponseEntity.ok(attendeeService.getAttendeeById(id));
     }
 

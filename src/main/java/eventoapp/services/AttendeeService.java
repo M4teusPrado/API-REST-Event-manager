@@ -4,16 +4,17 @@ import java.util.List;
 
 
 import eventoapp.dto.AttendeeDTO;
+import eventoapp.dto.AttendeeGetDTO;
 import eventoapp.models.Attendee;
 
 
 public interface AttendeeService {
        
-    public List<AttendeeDTO> getAttendees();
+    public List<AttendeeGetDTO> getAttendees();
 
-    public AttendeeDTO getAttendeeById(Long id);
+    public AttendeeGetDTO getAttendeeById(Long id);
 
-    public List<AttendeeDTO> toDTOList(List<Attendee> Attendees);
+    public List<AttendeeGetDTO> toDTOList(List<Attendee> Attendees);
 
     public void attendeeDTOtoAttendee(Attendee attendee, AttendeeDTO attendeeDTO);
 

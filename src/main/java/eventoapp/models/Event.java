@@ -45,6 +45,7 @@ public class Event implements Serializable{
     @Setter(AccessLevel.NONE)
     private List<Place> places = new ArrayList<Place>();
  
+    @ManyToOne
     private Admin admin;
 
     @OneToMany()

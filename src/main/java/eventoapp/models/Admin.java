@@ -21,7 +21,7 @@ public class Admin extends User {
     private String phoneNumber;
 
     @OneToMany()
-    @JoinColumn(name = "ADMIN_ID")
+    @JoinColumn(name = "ADMIN_USER_ID")
     @Setter(AccessLevel.NONE)
     private List<Event> events = new ArrayList<>();
 
