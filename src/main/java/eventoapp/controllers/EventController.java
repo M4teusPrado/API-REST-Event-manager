@@ -1,88 +1,32 @@
-// package eventoapp.controllers;
+package eventoapp.controllers;
 
-// import java.net.URI;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.data.domain.Page;
-// import org.springframework.data.domain.PageRequest;
-// import org.springframework.data.domain.Sort.Direction;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.DeleteMapping;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.PathVariable;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.PutMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RequestParam;
-// import org.springframework.web.bind.annotation.RestController;
-// import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.net.URI;
 
-// import eventoapp.dto.EventDTO;
-// import eventoapp.dto.EventUpdateDTO;
-// import eventoapp.models.Event;
-// import eventoapp.services.EventService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-// @RestController
-// @RequestMapping("/eventos")
-// public class EventController {
+import eventoapp.models.Event;
+import eventoapp.services.EventService;
 
-//     @Autowired
-//     private EventService eventService;
+@RestController
+@RequestMapping("/events")
+public class EventController {
 
-//     @GetMapping  
-//     public ResponseEntity<Page<EventDTO>> getEvents(
-//         @RequestParam(value = "page",           defaultValue = "0") Integer page,
-//         @RequestParam(value = "linesPerPage",   defaultValue = "6") Integer linesPerPage,
-//         @RequestParam(value = "direction",      defaultValue = "ASC") String direction,
-//         @RequestParam(value = "orderBy",        defaultValue = "id") String orderBy,
-//         @RequestParam(value = "name",           defaultValue = "") String name,
-//         @RequestParam(value = "place",          defaultValue = "") String place,
-//         @RequestParam(value = "description",    defaultValue = "") String description,
-//         @RequestParam(value = "startDate",      defaultValue = "0001-01-01") String startDate
-//     ){
+    @Autowired
+    private EventService eventService;
 
-//         PageRequest pageRequest = PageRequest.of(
-//                                                 page, 
-//                                                 linesPerPage,
-//                                                 Direction.valueOf(direction),
-//                                                 orderBy
-//                                                 );
-        
-//         Page<EventDTO> list =  eventService.getEvents(
-//                                                 pageRequest,
-//                                                 name,
-//                                                 place,
-//                                                 description,
-//                                                 startDate
-//                                                 );
-//         return ResponseEntity.ok(list);
-//     }
+    @PostMapping()
+    public ResponseEntity<Event> insertEvent(@RequestBody Event event)
+    {
+        Event aux = eventService.insertEvent(event);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aux.getId()).toUri();
+        return ResponseEntity.created(uri).body(aux);
+    }
 
-//     @GetMapping("{id}")
-//     public ResponseEntity<EventDTO> getEventById(@PathVariable Long id) {
-//         EventDTO eventDTO =  eventService.getEventById(id);
-//         return ResponseEntity.ok(eventDTO);
-//     }
-
-//     @DeleteMapping("{id}")
-//     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-//         eventService.deleteEvent(id);
-//         return ResponseEntity.noContent().build();
-//     }
-
-//     @PostMapping()
-//     public ResponseEntity<Event> insertEvent(@RequestBody Event event)
-//     {
-//         Event aux = eventService.insertEvent(event);
-//         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aux.getId()).toUri();
-//         return ResponseEntity.created(uri).body(aux);
-//     }
-
-//     @PutMapping("{id}")
-//     public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody EventUpdateDTO eventUpdateDTO)
-//     {
-//         EventDTO dto = eventService.updateEvent(id, eventUpdateDTO); 
-// 		return ResponseEntity.ok().body(dto);
-//     }
-// }
+}

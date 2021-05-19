@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -40,7 +39,6 @@ public class Event implements Serializable{
     private Long amountFreeTickets;
     private Long amountPayedTickets;
     
-
     @ManyToMany()
     @Setter(AccessLevel.NONE)
     private List<Place> places = new ArrayList<Place>();

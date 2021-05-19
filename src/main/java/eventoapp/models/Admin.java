@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +22,7 @@ public class Admin extends User {
     
     private String phoneNumber;
 
+    @JsonIgnore
     @OneToMany()
     @JoinColumn(name = "ADMIN_USER_ID")
     @Setter(AccessLevel.NONE)
