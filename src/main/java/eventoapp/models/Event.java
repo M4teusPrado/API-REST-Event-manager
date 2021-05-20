@@ -38,6 +38,7 @@ public class Event implements Serializable{
     private String emailContact;
     private Long amountFreeTickets;
     private Long amountPayedTickets;
+    private Double priceTickets;
     
     @ManyToMany()
     @Setter(AccessLevel.NONE)
@@ -52,6 +53,10 @@ public class Event implements Serializable{
 
     public void addPlace(Place place) {
         this.places.add(place); 
+    }
+
+    public List<Place> getPlaces( ) {
+        return places;
     }
     
     @Override
