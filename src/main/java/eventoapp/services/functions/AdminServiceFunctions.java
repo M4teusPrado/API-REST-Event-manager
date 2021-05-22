@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,9 +26,9 @@ public class AdminServiceFunctions implements AdminService {
     private AdminRepository adminRepository;
 
     @Override
-    public List<AdminGetDTO> getAdmins() {
-        List<Admin> admins = adminRepository.findAll();
-        return toDTOList(admins);
+    public Page<AdminGetDTO> getAdmins(PageRequest pageRequest) {
+        Page<Admin> admins = adminRepository.findAdminPageable(pageRequest);
+        return admins.map(admin -> new AdminGetDTO(admin));
     }
 
     @Override

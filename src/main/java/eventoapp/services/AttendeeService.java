@@ -2,6 +2,8 @@ package eventoapp.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import eventoapp.dto.AttendeeDTO;
 import eventoapp.dto.AttendeeGetDTO;
@@ -9,8 +11,8 @@ import eventoapp.models.Attendee;
 
 
 public interface AttendeeService {
-       
-    public List<AttendeeGetDTO> getAttendees();
+
+    public Page<AttendeeGetDTO> getAttendees(PageRequest pageRequest);
 
     public AttendeeGetDTO getAttendeeById(Long id);
 

@@ -2,13 +2,16 @@ package eventoapp.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import eventoapp.dto.PlaceDTO;
 import eventoapp.dto.PlaceGetDTO;
 import eventoapp.models.Place;
 
 public interface PlaceService {
 
-    public List<PlaceGetDTO> getPlaces();
+    public Page<PlaceGetDTO> getPlaces(PageRequest pageRequest);
 
     public PlaceGetDTO getPlaceById(Long id);
 

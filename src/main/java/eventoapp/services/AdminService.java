@@ -2,6 +2,9 @@ package eventoapp.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import eventoapp.dto.AdminDTO;
 import eventoapp.dto.AdminGetDTO;
 import eventoapp.models.Admin;
@@ -9,7 +12,7 @@ import eventoapp.models.Admin;
 
 public interface AdminService {
        
-    public List<AdminGetDTO> getAdmins();
+    public Page<AdminGetDTO> getAdmins(PageRequest pageRequest);
 
     public AdminGetDTO getAdminById(Long id);
 

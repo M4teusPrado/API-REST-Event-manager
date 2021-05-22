@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,9 +26,9 @@ public class PlaceServiceFunctions implements PlaceService {
     private PlaceRepository placeRepository;
 
     @Override
-    public List<PlaceGetDTO> getPlaces() {
-        List<Place> places = placeRepository.findAll();
-        return toDTOList(places);
+    public Page<PlaceGetDTO> getPlaces(PageRequest pageRequest) {
+        Page<Place> places = placeRepository.findPlacePageable(pageRequest);
+        return places.map(place -> new PlaceGetDTO(place));
     }
 
     @Override
