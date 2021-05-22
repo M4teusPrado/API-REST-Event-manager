@@ -2,12 +2,16 @@ package eventoapp.services.functions;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import eventoapp.dto.EventDTO;
 import eventoapp.models.Event;
 import eventoapp.repositories.AdminRepository;
 import eventoapp.repositories.EventRepository;
@@ -72,5 +76,33 @@ public class EventServiceFunctions implements EventService {
         if(startDate.isEqual(endDate)) 
             if(startTime.compareTo(endTime) == 1)
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Horario incoerente");
+    }
+
+    @Override
+    public EventDTO getEventById(Long id) {
+        Optional<Event> op = eventRepository.findById(id);
+        Event event = op.orElseThrow( () -> new ResponseStatusException( 
+                                                HttpStatus.NOT_FOUND, "Evento não encontrado"));
+        return new EventDTO(event);
+    }
+
+    @Override
+    public void deleteEvent(Long id) {
+        getEventById(id);
+        eventRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String startDate) {
+        
+        LocalDate startDateAux = LocalDate.parse(startDate);
+        
+        Page<Event> events = eventRepository.find(
+                                                pageRequest,
+                                                name.trim(),
+                                                description.trim(),
+                                                startDateAux
+                                                );
+        return events.map( event -> new EventDTO(event));
     }
 }

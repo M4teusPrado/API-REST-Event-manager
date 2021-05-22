@@ -1,5 +1,10 @@
 package eventoapp.repositories;
 
+import java.time.LocalDate;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 // import java.time.LocalDate;
 
 // import org.springframework.data.domain.Page;
@@ -12,6 +17,8 @@ import eventoapp.models.Event;
 
 @Repository
 public interface EventRepository extends JpaRepository <Event,Long>{
+
+    Page<Event> find(PageRequest pageRequest, String trim, String trim2, LocalDate startDateAux);
 
     // @Query(
     //         "SELECT e FROM Event e " + 
