@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -41,18 +43,32 @@ public class Event implements Serializable{
     private Double priceTickets;
     
     @ManyToMany()
+    @JoinTable(
+        name="PLACE_EVENT",
+        joinColumns =  @JoinColumn(name="EVENT_ID"),
+        inverseJoinColumns = @JoinColumn(name="PLACE_ID")
+    )
     @Setter(AccessLevel.NONE)
     private List<Place> places = new ArrayList<Place>();
  
-    @ManyToOne
+
+    @ManyToOne()
+    @JoinColumn(name="ADMIN_USER_ID")
     private Admin admin;
 
     @OneToMany()
+    @JoinColumn(name ="EVENT_ID")
     private List<Ticket> tickets = new ArrayList<>();
 
 
-    public void addPlace(Place place) {
-        this.places.add(place); 
+
+    public void addPlace(Place place, Long id_place) {
+        for (Place aux : places) {
+           if(aux.getId().equals(id_place)) {
+               aux.setAddress(place.getAddress());
+               aux.setName(place.getName());
+           }
+        }
     }
 
     public List<Place> getPlaces( ) {

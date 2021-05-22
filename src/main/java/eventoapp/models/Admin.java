@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -23,8 +22,7 @@ public class Admin extends User {
     private String phoneNumber;
 
     @JsonIgnore
-    @OneToMany()
-    @JoinColumn(name = "ADMIN_USER_ID")
+    @OneToMany(mappedBy = "admin")
     @Setter(AccessLevel.NONE)
     private List<Event> events = new ArrayList<>();
 

@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import lombok.AccessLevel;
@@ -29,8 +31,13 @@ public class Place implements Serializable {
     private String address;
 
     @ManyToMany()
+    @JoinTable(
+        name="PLACE_EVENT",
+        joinColumns =  @JoinColumn(name="PLACE_ID"),
+        inverseJoinColumns = @JoinColumn(name="EVENT_ID")
+    )
     @Setter(AccessLevel.NONE)
-    private List<Event> events = new ArrayList<Event>();    
+    private List<Event> events = new ArrayList<>();
 
     public void addEvent(Event event) {
         this.events.add(event); 

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import eventoapp.models.enums.TicketType;
 import lombok.Getter;
@@ -24,7 +25,11 @@ public class Ticket implements Serializable {
     private TicketType type;
     private Instant date;
     private Double price;
+
+    @ManyToOne()
     private Attendee attendee;
+
+    @ManyToOne()
     private Event event;
 
     public Ticket() { }

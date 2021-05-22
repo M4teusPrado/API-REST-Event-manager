@@ -21,7 +21,7 @@ public class Attendee extends User {
     private float balance;
 
     @OneToMany()
-    @JoinColumn(name = "ATTENDEE_ID")
+    @JoinColumn(name = "ATTENDEE_USER_ID")
     @Setter(AccessLevel.NONE)
     private List<Ticket> tickets = new ArrayList<>();
 
