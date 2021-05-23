@@ -31,7 +31,7 @@ public class AdminController {
     private AdminService adminService;
 
     @GetMapping()
-    public ResponseEntity<Page<AdminGetDTO> getAdmins(
+    public ResponseEntity<Page<AdminGetDTO>> getAdmins(
         @RequestParam(value = "page",           defaultValue = "0")                 Integer page,
         @RequestParam(value = "linesPerPage",   defaultValue = "6")                 Integer linesPerPage,
         @RequestParam(value = "direction",      defaultValue = "ASC")               String  direction,
