@@ -31,7 +31,7 @@ public class AdminController {
     private AdminService adminService;
 
     @GetMapping()
-    public Page<AdminGetDTO> getAdmins(
+    public ResponseEntity<Page<AdminGetDTO> getAdmins(
         @RequestParam(value = "page",           defaultValue = "0")                 Integer page,
         @RequestParam(value = "linesPerPage",   defaultValue = "6")                 Integer linesPerPage,
         @RequestParam(value = "direction",      defaultValue = "ASC")               String  direction,
@@ -39,7 +39,7 @@ public class AdminController {
     ){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
         Page<AdminGetDTO> listDTO = adminService.getAdmins(pageRequest);
-        return listDTO;
+        return ResponseEntity.ok(listDTO);
     }
 
     @GetMapping("/{id}")
