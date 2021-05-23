@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @PrimaryKeyJoinColumn(name="USER_ID")
-public class Admin extends User {
+public class Admin extends BaseUser {
     
     private String phoneNumber;
 

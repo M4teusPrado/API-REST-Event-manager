@@ -96,7 +96,12 @@ public class EventServiceFunctions implements EventService {
     }
 
     @Override
-    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String startDate) {
+    public Page<EventDTO> getEvents(
+                                    PageRequest pageRequest, 
+                                    String name, 
+                                    String description, 
+                                    String startDate
+                                    ){
         
         LocalDate startDateAux = LocalDate.parse(startDate);
         

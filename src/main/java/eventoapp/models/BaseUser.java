@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 
 @Inheritance( strategy = InheritanceType.JOINED )
-public class User implements Serializable {
+public class BaseUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,9 +26,9 @@ public class User implements Serializable {
     private String name;
     private String email;
 
-    public User() { }
+    public BaseUser() { }
 
-    public User(Long id, String name, String email) {
+    public BaseUser(Long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -50,7 +50,7 @@ public class User implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        BaseUser other = (BaseUser) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -58,9 +58,5 @@ public class User implements Serializable {
             return false;
         return true;
     }
-
-    
-    
-
     
 }

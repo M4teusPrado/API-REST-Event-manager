@@ -27,7 +27,7 @@ public class AttendeeServiceFunctions implements AttendeeService {
 
     @Override
     public Page<AttendeeGetDTO> getAttendees(PageRequest pageRequest) {
-        Page<Attendee> attendees = attendeeRepository.findAttendeePageable(pageRequest);
+        Page<Attendee> attendees = attendeeRepository.find(pageRequest);
         return attendees.map(attendee -> new AttendeeGetDTO(attendee));
     }
 

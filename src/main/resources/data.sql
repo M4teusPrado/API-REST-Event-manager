@@ -1,13 +1,13 @@
 
 --INSERT BASE USER
     --ADMIN
-INSERT INTO USER (email, name) VALUES ('admin1@gmail.com', 'admin1');
-INSERT INTO USER (email, name) VALUES ('admin1@gmail.com', 'admin2');
-INSERT INTO USER (email, name) VALUES ('admin2@gmail.com', 'admin3');
+INSERT INTO BASE_USER (email, name) VALUES ('admin1@gmail.com', 'admin1');
+INSERT INTO BASE_USER (email, name) VALUES ('admin1@gmail.com', 'admin2');
+INSERT INTO BASE_USER (email, name) VALUES ('admin2@gmail.com', 'admin3');
     --ATTENDEE
-INSERT INTO USER (email, name) VALUES ('attendee1@gmail.com', 'attendee1');
-INSERT INTO USER (email, name) VALUES ('attendee2@gmail.com', 'attendee2');
-INSERT INTO USER (email, name) VALUES ('attendee2@gmail.com', 'attendee3');
+INSERT INTO BASE_USER (email, name) VALUES ('attendee1@gmail.com', 'attendee1');
+INSERT INTO BASE_USER (email, name) VALUES ('attendee2@gmail.com', 'attendee2');
+INSERT INTO BASE_USER (email, name) VALUES ('attendee2@gmail.com', 'attendee3');
 
     --INSERT ADMIN 
 INSERT INTO ADMIN (phone_number, user_id) VALUES ('(15) 99721-4824', 1);

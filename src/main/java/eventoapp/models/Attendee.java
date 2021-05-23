@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter()
 @Getter
 @PrimaryKeyJoinColumn(name="USER_ID")
-public class Attendee extends User {
+public class Attendee extends BaseUser {
 
     private float balance;
 

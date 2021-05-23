@@ -31,7 +31,7 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @GetMapping  
+    @GetMapping()
     public ResponseEntity<Page<EventDTO>> getEvents(
         @RequestParam(value = "page",           defaultValue = "0") Integer page,
         @RequestParam(value = "linesPerPage",   defaultValue = "6") Integer linesPerPage,

@@ -31,15 +31,19 @@ public class AttendeeController {
     private AttendeeService attendeeService;
 
     @GetMapping()
-    public Page<AttendeeGetDTO> getAttendee(
+    public ResponseEntity<Page<AttendeeGetDTO>> getAttendees(
         @RequestParam(value = "page",           defaultValue = "0")                 Integer page,
         @RequestParam(value = "linesPerPage",   defaultValue = "6")                 Integer linesPerPage,
         @RequestParam(value = "direction",      defaultValue = "ASC")               String  direction,
         @RequestParam(value = "orderBy",        defaultValue = "id")                String  orderBy
     ){
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+        PageRequest pageRequest = PageRequest.of(
+                                            page, 
+                                            linesPerPage, 
+                                            Direction.valueOf(direction), 
+                                            orderBy);
         Page<AttendeeGetDTO> listDTO = attendeeService.getAttendees(pageRequest);
-        return listDTO;
+        return ResponseEntity.ok(listDTO);
     }
 
     @GetMapping("/{id}")

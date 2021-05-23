@@ -13,14 +13,15 @@ import eventoapp.models.Event;
 public interface EventService {
 
     public Event insertEvent(Event event);
-
+    
+    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String startDate);
+    
     public void verifyDateAndTime(LocalDate startDate, LocalDate endDate, LocalTime startTime,LocalTime endTime);
 
     public EventDTO getEventById(Long id);
 
     public void deleteEvent(Long id);
 
-    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String startDate);
 
     public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDTO);
 

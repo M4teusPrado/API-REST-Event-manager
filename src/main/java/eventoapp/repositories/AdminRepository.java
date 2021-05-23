@@ -10,6 +10,8 @@ import eventoapp.models.Admin;
 
 @Repository
 public interface AdminRepository extends JpaRepository <Admin,Long>{
-    @Query( "SELECT a FROM Admin a")
+    @Query( 
+        " SELECT a FROM Admin a "
+        )
     public Page<Admin> findAdminPageable(Pageable pageRequest); 
 }

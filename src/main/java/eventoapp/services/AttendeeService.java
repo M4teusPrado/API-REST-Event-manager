@@ -12,6 +12,8 @@ import eventoapp.models.Attendee;
 
 public interface AttendeeService {
 
+    public Attendee insertAttendee(AttendeeDTO AttendeeDTO);
+    
     public Page<AttendeeGetDTO> getAttendees(PageRequest pageRequest);
 
     public AttendeeGetDTO getAttendeeById(Long id);
@@ -22,7 +24,6 @@ public interface AttendeeService {
 
     public void deleteAttendee(Long id);
 
-    public Attendee insertAttendee(AttendeeDTO AttendeeDTO);
 
     public AttendeeDTO updateEvent(Long id, AttendeeDTO AttendeeDTO);
 }
