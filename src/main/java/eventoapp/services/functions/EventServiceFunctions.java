@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import eventoapp.dto.EventDTO;
+import eventoapp.dto.EventUpdateDTO;
 import eventoapp.models.Event;
 import eventoapp.repositories.AdminRepository;
 import eventoapp.repositories.EventRepository;
@@ -105,4 +108,45 @@ public class EventServiceFunctions implements EventService {
                                                 );
         return events.map( event -> new EventDTO(event));
     }
+
+    @Override
+    public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDTO) {
+
+        try{
+            Event event = eventRepository.getOne(id);
+            
+            verifyPossibilityOfUpdate(event, LocalDate.now());
+            
+            verifyDateAndTime(
+                eventUpdateDTO.getStartDate(),
+                eventUpdateDTO.getEndDate(),
+                eventUpdateDTO.getStartTime(),
+                eventUpdateDTO.getEndTime()
+            );
+
+            verifyPrice(eventUpdateDTO.getPriceTickets());
+ 
+            event.setName(eventUpdateDTO.getName());
+            event.setDescription(eventUpdateDTO.getDescription());
+            event.setStartDate(eventUpdateDTO.getStartDate());
+            event.setEndDate(eventUpdateDTO.getEndDate());
+            event.setStartTime(eventUpdateDTO.getEndTime());
+            event.setEmailContact(eventUpdateDTO.getEmailContact());
+            event.setPriceTickets(eventUpdateDTO.getPriceTickets());
+
+            event = eventRepository.save(event);
+            return new EventDTO(event);
+          }
+          catch(EntityNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado");
+          }
+    }
+
+    private void verifyPossibilityOfUpdate(Event event, LocalDate today) {   
+        if( event.getStartDate().isBefore(today) || 
+            (event.getStartDate().equals(today)  && event.getStartTime().equals(LocalTime.now())))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel atualizar evento");
+    }
+
+    
 }

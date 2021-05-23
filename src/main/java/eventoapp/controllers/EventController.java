@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import eventoapp.dto.EventDTO;
+import eventoapp.dto.EventUpdateDTO;
 import eventoapp.models.Event;
 import eventoapp.services.EventService;
 
@@ -76,6 +78,14 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
-    
+
+    @PutMapping("{id}")
+    public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody EventUpdateDTO eventUpdateDTO)
+    {
+        EventDTO dto = eventService.updateEvent(id, eventUpdateDTO); 
+		return ResponseEntity.ok().body(dto);
+    }
+
+
 
 }
