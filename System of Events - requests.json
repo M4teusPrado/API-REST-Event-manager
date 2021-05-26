@@ -1,0 +1,464 @@
+{
+	"info": {
+		"_postman_id": "b446cd62-b08a-433a-997d-c35fdc7b422d",
+		"name": "System of Events - AC1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Eventos",
+			"item": [
+				{
+					"name": "/eventos/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/eventos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/events",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/eventos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \"name\": \"halloween\",\r\n        \"description\": \"Dia das Bruxas é uma celebração observada em vários países, principalmente no mundo anglófono, em 31 de outubro, véspera da festa cristã ocidental do Dia de Todos os Santos.\",\r\n        \"place\": \"São Paulo\",\r\n        \"startDate\": \"2021-02-16\",\r\n        \"endDate\": \"2021-02-25\",\r\n        \"startTime\": \"00:00:00\",\r\n        \"endTime\": \"00:30:00\",\r\n        \"emailContact\": \"halloween@gmail.com\",\r\n        \"amountFreeTickets\": 500,\r\n        \"amountPayedTickets\": 750,\r\n        \"priceTickets\": 25.5,\r\n\r\n   \r\n        \r\n        \"admin\": {\r\n            \"id\": 1\r\n        }\r\n    }\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/events",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/eventos/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/eventos/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"eventos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/eventos/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"place\": \"Jundiai - SP\",\r\n        \"startDate\": \"2021-08-18\",\r\n        \"endDate\": \"2021-08-19\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/events/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"events",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "/admins/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admins/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admins",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/admins",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admins",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/admins",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Mateuzao, o jacaré\",\r\n\t\"email\": \"JacareDeBueiro@esgoto.com\",\r\n\t\"phoneNumber\": \"15992692380\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/admins",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/admins/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admins/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admins",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/eventos/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Mateuzao, o jacarézinho\",\r\n\t\"email\": \"JacareDePantano@esgoto.com\",\r\n\t\"phoneNumber\": \"15992692381\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/admins/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admins",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Attendee",
+			"item": [
+				{
+					"name": "/attendees/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/attendees/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"attendees",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/attendees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/attendees",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"attendees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/attendee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n\t\"name\": \"Mateuzao, o jacaré\",\r\n\t\"email\": \"JacareDeBueiro@esgoto.com\",\r\n\t\"phoneNumber\": \"15992692380\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/attendees",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"attendees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/attendees/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/attendees/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"attendees",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/eventos/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"Felipinho\",\r\n        \"email\": \"Felipinho@gmail.com\",\r\n        \"balance\": 855\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/attendees/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"attendees",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Place",
+			"item": [
+				{
+					"name": "/places/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/places/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"places",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/places",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/places",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"places"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/places",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \"name\": \"Sorocaba\",\r\n        \"address\": \"Skinao\"\r\n    }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/places",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"places"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/places{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/places/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"places",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/places/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/places/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"places",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
