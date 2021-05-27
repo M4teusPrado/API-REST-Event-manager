@@ -48,7 +48,7 @@ public class AttendeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AttendeeGetDTO> getAttendeeById(@PathVariable Long id ) {
-        return ResponseEntity.ok(attendeeService.getAttendeeById(id));
+        return ResponseEntity.ok().body(attendeeService.getAttendeeById(id));
     }
 
     @PostMapping()

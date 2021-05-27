@@ -34,6 +34,7 @@ public class AdminServiceFunctions implements AdminService {
     @Override
     public AdminGetDTO getAdminById(Long id) {
         Optional<Admin> op = adminRepository.findById(id);
+
         Admin admin = op.orElseThrow( () -> new ResponseStatusException( 
             HttpStatus.NOT_FOUND, "Administrador não encontrado"));
         return new AdminGetDTO(admin);

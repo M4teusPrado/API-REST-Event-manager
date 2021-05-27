@@ -31,7 +31,7 @@ public class PlaceController {
     private PlaceService placeService;
 
     @GetMapping()
-    public Page<PlaceGetDTO> getPlaces(
+    public ResponseEntity<Page<PlaceGetDTO>> getPlaces(
         @RequestParam(value = "page",           defaultValue = "0")                 Integer page,
         @RequestParam(value = "linesPerPage",   defaultValue = "6")                 Integer linesPerPage,
         @RequestParam(value = "direction",      defaultValue = "ASC")               String  direction,
@@ -39,12 +39,13 @@ public class PlaceController {
     ){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
         Page<PlaceGetDTO> listDTO = placeService.getPlaces(pageRequest);
-        return listDTO;
+
+        return ResponseEntity.ok(listDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PlaceGetDTO> getPlaceById(@PathVariable Long id ) {
-        return ResponseEntity.ok(placeService.getPlaceById(id));
+        return ResponseEntity.ok().body(placeService.getPlaceById(id));
     }
 
     @PostMapping()

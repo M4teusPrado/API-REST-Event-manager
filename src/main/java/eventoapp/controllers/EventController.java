@@ -60,8 +60,7 @@ public class EventController {
 
     @GetMapping("{id}")
     public ResponseEntity<EventDTO> getEventById(@PathVariable Long id) {
-        EventDTO eventDTO =  eventService.getEventById(id);
-        return ResponseEntity.ok(eventDTO);
+        return ResponseEntity.ok().body(eventService.getEventById(id));
     }
 
     @PostMapping()
