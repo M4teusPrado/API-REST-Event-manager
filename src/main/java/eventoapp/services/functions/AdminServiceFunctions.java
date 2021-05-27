@@ -2,7 +2,6 @@ package eventoapp.services.functions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -33,11 +32,12 @@ public class AdminServiceFunctions implements AdminService {
 
     @Override
     public AdminGetDTO getAdminById(Long id) {
-        Optional<Admin> op = adminRepository.findById(id);
-
-        Admin admin = op.orElseThrow( () -> new ResponseStatusException( 
-            HttpStatus.NOT_FOUND, "Administrador não encontrado"));
-        return new AdminGetDTO(admin);
+        try {
+            Admin admin = adminRepository.findById(id).get();
+            return new AdminGetDTO(admin);
+        } catch (Exception e) {
+            throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Administradior não encontrado");
+        }
     }
 
     @Override

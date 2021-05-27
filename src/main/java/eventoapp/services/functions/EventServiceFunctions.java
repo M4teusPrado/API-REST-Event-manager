@@ -2,7 +2,6 @@ package eventoapp.services.functions;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -83,10 +82,12 @@ public class EventServiceFunctions implements EventService {
 
     @Override
     public EventDTO getEventById(Long id) {
-        Optional<Event> op = eventRepository.findById(id);
-        Event event = op.orElseThrow( () -> new ResponseStatusException( 
-                                                HttpStatus.NOT_FOUND, "Evento não encontrado"));
-        return new EventDTO(event);
+        try {
+            Event event = eventRepository.findById(id).get();
+            return new EventDTO(event);
+        } catch (Exception e) {
+            throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Evento não encontrado");
+        }
     }
 
     @Override

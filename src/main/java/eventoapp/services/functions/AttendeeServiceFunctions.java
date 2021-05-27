@@ -2,7 +2,6 @@ package eventoapp.services.functions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -33,12 +32,12 @@ public class AttendeeServiceFunctions implements AttendeeService {
 
     @Override
     public AttendeeGetDTO getAttendeeById(Long id) {
-        
-        Optional<Attendee> op = attendeeRepository.findById(id);
-        
-        Attendee attendee = op.orElseThrow( () -> new ResponseStatusException( 
-            HttpStatus.NOT_FOUND, "Participante não encontrado"));
-        return new AttendeeGetDTO(attendee);
+        try {
+            Attendee attendee = attendeeRepository.findById(id).get();
+            return new AttendeeGetDTO(attendee);
+        } catch (Exception e) {
+            throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Participante não encontrado");
+        }   
     }
 
     @Override

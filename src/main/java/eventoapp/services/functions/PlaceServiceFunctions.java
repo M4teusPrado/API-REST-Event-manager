@@ -2,7 +2,6 @@ package eventoapp.services.functions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -33,10 +32,12 @@ public class PlaceServiceFunctions implements PlaceService {
 
     @Override
     public PlaceGetDTO getPlaceById(Long id) {
-        Optional<Place> op = placeRepository.findById(id);
-        Place place = op.orElseThrow( () -> new ResponseStatusException( 
-            HttpStatus.NOT_FOUND, "Local não encontrado"));
-        return new PlaceGetDTO(place);
+        try {
+            Place place = placeRepository.findById(id).get();
+            return new PlaceGetDTO(place);
+        } catch (Exception e) {
+            throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Lugar não encontrado");
+        }
     }
 
     @Override
