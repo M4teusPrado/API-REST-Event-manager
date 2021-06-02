@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import eventoapp.dto.EventDTO;
+import eventoapp.dto.EventTicketDTO;
 import eventoapp.dto.EventUpdateDTO;
 import eventoapp.models.Event;
 import eventoapp.repositories.AdminRepository;
@@ -154,5 +155,10 @@ public class EventServiceFunctions implements EventService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel atualizar evento");
     }
 
-    
+    public EventTicketDTO getEventTicketDTO(Long id){
+        EventDTO        eventAux        =       getEventById(id);
+        EventTicketDTO  eventTicketAux  = new   EventTicketDTO(eventAux);
+
+        return eventTicketAux;
+    }
 }

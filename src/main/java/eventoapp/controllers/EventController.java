@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import eventoapp.dto.EventDTO;
+import eventoapp.dto.EventTicketDTO;
 import eventoapp.dto.EventUpdateDTO;
 import eventoapp.models.Event;
 import eventoapp.services.EventService;
@@ -61,6 +62,11 @@ public class EventController {
     @GetMapping("{id}")
     public ResponseEntity<EventDTO> getEventById(@PathVariable Long id) {
         return ResponseEntity.ok().body(eventService.getEventById(id));
+    }
+
+    @GetMapping("{id}/tickets")
+    public ResponseEntity<EventTicketDTO> getTicketsOfEventById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(eventService.getEventTicketDTO(id));
     }
 
     @PostMapping()

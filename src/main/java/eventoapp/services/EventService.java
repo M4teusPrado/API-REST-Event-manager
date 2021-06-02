@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import eventoapp.dto.EventDTO;
+import eventoapp.dto.EventTicketDTO;
 import eventoapp.dto.EventUpdateDTO;
 import eventoapp.models.Event;
 
@@ -24,6 +25,8 @@ public interface EventService {
 
 
     public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDTO);
+
+    public EventTicketDTO getEventTicketDTO(Long id);
 
     // public List<EventDTO> toDTOList(List<Event> events);
 }
