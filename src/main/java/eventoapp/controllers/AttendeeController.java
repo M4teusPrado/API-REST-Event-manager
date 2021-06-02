@@ -2,6 +2,8 @@ package eventoapp.controllers;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -52,7 +54,7 @@ public class AttendeeController {
     }
 
     @PostMapping()
-    public ResponseEntity<Attendee> insertAttendee(@RequestBody AttendeeDTO AttendeeDTO)
+    public ResponseEntity<Attendee> insertAttendee(@RequestBody @Valid AttendeeDTO AttendeeDTO)
     {
         Attendee aux = attendeeService.insertAttendee(AttendeeDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aux.getId()).toUri();

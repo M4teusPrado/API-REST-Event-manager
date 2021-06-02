@@ -2,6 +2,8 @@ package eventoapp.controllers;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,7 +50,7 @@ public class AdminController {
     }
 
     @PostMapping()
-    public ResponseEntity<Admin> insertAdmin(@RequestBody AdminDTO adminDTO)
+    public ResponseEntity<Admin> insertAdmin(@RequestBody @Valid AdminDTO adminDTO)
     {
         Admin aux = adminService.insertAdmin(adminDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aux.getId()).toUri();
