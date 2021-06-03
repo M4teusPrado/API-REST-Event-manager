@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,10 +28,11 @@ public class Place implements Serializable {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY) 
-    private Long id;
+    private Long id;                
     private String name; 
     private String address;
 
+    @JsonIgnore
     @ManyToMany()
     @JoinTable(
         name="PLACE_EVENT",

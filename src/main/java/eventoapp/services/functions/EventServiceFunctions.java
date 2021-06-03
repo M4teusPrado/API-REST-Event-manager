@@ -16,8 +16,10 @@ import eventoapp.dto.EventDTO;
 import eventoapp.dto.EventTicketDTO;
 import eventoapp.dto.EventUpdateDTO;
 import eventoapp.models.Event;
+import eventoapp.models.Place;
 import eventoapp.repositories.AdminRepository;
 import eventoapp.repositories.EventRepository;
+import eventoapp.repositories.PlaceRepository;
 import eventoapp.services.AdminService;
 import eventoapp.services.EventService;
 
@@ -33,6 +35,9 @@ public class EventServiceFunctions implements EventService {
 
     @Autowired 
     private AdminRepository adminRepository;
+
+    @Autowired
+    private PlaceRepository placeRepository;
 
     @Override
     public Event insertEvent(Event event) {
@@ -160,5 +165,23 @@ public class EventServiceFunctions implements EventService {
         EventTicketDTO  eventTicketAux  = new   EventTicketDTO(eventAux);
 
         return eventTicketAux;
+    }
+
+    @Override
+    public EventDTO connectPlaceInEvent(Long idEvent, Long idPlace) {
+
+        try {
+
+            Event event = eventRepository.findById(idEvent).get();
+            Place place = placeRepository.findById(idPlace).get();
+
+            event.addPlace(place);
+
+            event = eventRepository.save(event);
+
+            return new EventDTO(event);
+        } catch (Exception e) {
+            throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Evento não encontrado");
+        }
     }
 }

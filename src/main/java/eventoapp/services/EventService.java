@@ -28,5 +28,7 @@ public interface EventService {
 
     public EventTicketDTO getEventTicketDTO(Long id);
 
+    public EventDTO connectPlaceInEvent(Long idEvent, Long idPlace);
+
     // public List<EventDTO> toDTOList(List<Event> events);
 }

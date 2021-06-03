@@ -1,6 +1,5 @@
 package eventoapp.dto;
 
-import eventoapp.models.Event;
 import lombok.Getter;
 import lombok.Setter;
 

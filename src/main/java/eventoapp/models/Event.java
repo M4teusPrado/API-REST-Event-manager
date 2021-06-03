@@ -61,14 +61,8 @@ public class Event implements Serializable{
     private List<Ticket> tickets = new ArrayList<>();
 
 
-
-    public void addPlace(Place place, Long id_place) {
-        for (Place aux : places) {
-           if(aux.getId().equals(id_place)) {
-               aux.setAddress(place.getAddress());
-               aux.setName(place.getName());
-           }
-        }
+    public void addPlace(Place place) {
+        this.places.add(place);
     }
 
     public List<Place> getPlaces( ) {

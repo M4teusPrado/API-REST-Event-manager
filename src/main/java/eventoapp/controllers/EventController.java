@@ -83,7 +83,6 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
-
     @PutMapping("{id}")
     public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody EventUpdateDTO eventUpdateDTO)
     {
@@ -91,6 +90,11 @@ public class EventController {
 		return ResponseEntity.ok().body(dto);
     }
 
-
-
+    @PutMapping("/{idEvent}/places/{idPlace}")
+    public ResponseEntity<EventDTO> connectPlaceInEvent(
+                                            @PathVariable("idEvent") Long idEvent, 
+                                            @PathVariable("idPlace") Long idPlace ){
+        EventDTO dto = eventService.connectPlaceInEvent(idEvent, idPlace); 
+		return ResponseEntity.ok().body(dto);
+    }
 }
