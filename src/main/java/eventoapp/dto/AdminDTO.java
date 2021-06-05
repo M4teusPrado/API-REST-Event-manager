@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter 
 public class AdminDTO {
     
-
     @NotBlank(message = "{name.not.blank}")
     @Size(min = 3, max = 20)
     private String name;

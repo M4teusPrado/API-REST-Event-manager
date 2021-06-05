@@ -68,6 +68,15 @@ public class Event implements Serializable{
     public List<Place> getPlaces( ) {
         return places;
     }
+
+    public Boolean getPlace(Long id) {
+        for (Place p : places) {
+            if(p.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     @Override
     public int hashCode() {

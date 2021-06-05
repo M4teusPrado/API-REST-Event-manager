@@ -2,6 +2,7 @@ package eventoapp.services.functions;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -22,6 +23,7 @@ import eventoapp.repositories.EventRepository;
 import eventoapp.repositories.PlaceRepository;
 import eventoapp.services.AdminService;
 import eventoapp.services.EventService;
+import eventoapp.services.PlaceService;
 
 
 @Service
@@ -38,6 +40,9 @@ public class EventServiceFunctions implements EventService {
 
     @Autowired
     private PlaceRepository placeRepository;
+
+    @Autowired
+    private PlaceService placeService;
 
     @Override
     public Event insertEvent(Event event) {
@@ -170,18 +175,90 @@ public class EventServiceFunctions implements EventService {
     @Override
     public EventDTO connectPlaceInEvent(Long idEvent, Long idPlace) {
 
-        try {
+        getEventById(idEvent);
+        Event event = eventRepository.findById(idEvent).get();
 
-            Event event = eventRepository.findById(idEvent).get();
-            Place place = placeRepository.findById(idPlace).get();
+        placeService.getPlaceById(idPlace);
+        Place place = placeRepository.findById(idPlace).get();
 
-            event.addPlace(place);
+        verifyDateOfPlace(event, place);
+        
+        event.addPlace(place);
+        event = eventRepository.save(event);
 
-            event = eventRepository.save(event);
+        return new EventDTO(event);
+    }
 
-            return new EventDTO(event);
-        } catch (Exception e) {
-            throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Evento não encontrado");
+    public void verifyDateOfPlace(Event event, Place place) {
+        List<Event> events = getEventsByPlace(place);
+
+        Boolean flag = true;
+
+        for (Event e : events) {
+            if(
+                e.getStartDate().isBefore(event.getStartDate())   && 
+                ( e.getEndDate().isAfter(event.getStartDate())    ||
+                  e.getEndDate().isBefore(event.getStartDate()) 
+                )
+            ){
+                flag = false;
+                break;
+            }
+
+            if(
+                ( e.getStartDate().isAfter(event.getStartDate())  ||
+                  e.getStartDate().equals(event.getStartDate()))   &&
+                e.getEndDate().isBefore(event.getEndDate()) 
+            ){
+                flag = false;
+                break;
+            }
+
+            if(
+                e.getStartDate().isEqual(event.getStartDate()) && 
+                e.getEndDate().isEqual(event.getEndDate()) 
+            ){
+                flag = false;
+                break;
+            }
+            
+            if(
+                ( e.getStartDate().isBefore(event.getStartDate()) || 
+                  e.getStartDate().equals(event.getStartDate())
+                )  
+                  && 
+                ( e.getEndDate().isAfter(event.getEndDate()) || 
+                  e.getEndDate().equals(event.getEndDate())
+                )
+            ){
+                flag = false;
+                break;
+            }
+
+            if(
+                ( e.getStartDate().isAfter(event.getStartDate()) ||
+                  e.getStartDate().isEqual(event.getStartDate()) 
+                ) 
+                &&
+                ( e.getEndDate().isBefore(event.getEndDate()) ||
+                  e.getEndDate().isEqual(event.getEndDate())
+                )
+            ){
+                flag = false;
+                break;
+            }
         }
+
+        if(!flag) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Horario invalido");
+        }
+    }
+
+    public List<Event> getEventsByPlace(Place place) {
+        List<Event> events = eventRepository.findAll();
+        for (Event e : events) 
+            if(!e.getPlace(place.getId())) 
+                events.remove(e);
+        return events;
     }
 }
