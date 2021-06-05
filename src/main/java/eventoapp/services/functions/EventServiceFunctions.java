@@ -2,6 +2,7 @@ package eventoapp.services.functions;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -194,59 +195,78 @@ public class EventServiceFunctions implements EventService {
 
         Boolean flag = true;
 
+        if (events.size() == 0)
+            return;
+
         for (Event e : events) {
-            if(
-                e.getStartDate().isBefore(event.getStartDate())   && 
-                ( e.getEndDate().isAfter(event.getStartDate())    ||
-                  e.getEndDate().isBefore(event.getStartDate()) 
-                )
-            ){
-                flag = false;
-                break;
+            if  ((event.getStartDate().isAfter(e.getStartDate())    || (event.getStartDate().isEqual(e.getStartDate())))  &&
+                ((event.getStartDate().isBefore(e.getEndDate()))    || (event.getStartDate().isEqual(e.getEndDate())))){
+                    flag = false;
+                    break;
             }
 
-            if(
-                ( e.getStartDate().isAfter(event.getStartDate())  ||
-                  e.getStartDate().equals(event.getStartDate()))   &&
-                e.getEndDate().isBefore(event.getEndDate()) 
-            ){
-                flag = false;
-                break;
+            if  ((event.getEndDate().isAfter(e.getStartDate())    || (event.getEndDate().isEqual(e.getStartDate())))  &&
+                ((event.getEndDate().isBefore(e.getEndDate()))    || (event.getEndDate().isEqual(e.getEndDate())))){
+                    flag = false;
+                    break;
             }
 
-            if(
-                e.getStartDate().isEqual(event.getStartDate()) && 
-                e.getEndDate().isEqual(event.getEndDate()) 
-            ){
+            if (event.getStartDate().isBefore(e.getStartDate()) && event.getEndDate().isAfter(e.getEndDate())){
                 flag = false;
                 break;
             }
+            // if(
+            //     e.getStartDate().isBefore(event.getStartDate())   && 
+            //     ( e.getEndDate().isAfter(event.getStartDate())    ||
+            //       e.getEndDate().isBefore(event.getStartDate()) 
+            //     )
+            // ){
+            //     flag = false;
+            //     break;
+            // }
+
+            // if(
+            //     ( e.getStartDate().isAfter(event.getStartDate())  ||
+            //       e.getStartDate().equals(event.getStartDate()))   &&
+            //     e.getEndDate().isBefore(event.getEndDate()) 
+            // ){
+            //     flag = false;
+            //     break;
+            // }
+
+            // if(
+            //     e.getStartDate().isEqual(event.getStartDate()) && 
+            //     e.getEndDate().isEqual(event.getEndDate()) 
+            // ){
+            //     flag = false;
+            //     break;
+            // }
             
-            if(
-                ( e.getStartDate().isBefore(event.getStartDate()) || 
-                  e.getStartDate().equals(event.getStartDate())
-                )  
-                  && 
-                ( e.getEndDate().isAfter(event.getEndDate()) || 
-                  e.getEndDate().equals(event.getEndDate())
-                )
-            ){
-                flag = false;
-                break;
-            }
+            // if(
+            //     ( e.getStartDate().isBefore(event.getStartDate()) || 
+            //       e.getStartDate().equals(event.getStartDate())
+            //     )  
+            //       && 
+            //     ( e.getEndDate().isAfter(event.getEndDate()) || 
+            //       e.getEndDate().equals(event.getEndDate())
+            //     )
+            // ){
+            //     flag = false;
+            //     break;
+            // }
 
-            if(
-                ( e.getStartDate().isAfter(event.getStartDate()) ||
-                  e.getStartDate().isEqual(event.getStartDate()) 
-                ) 
-                &&
-                ( e.getEndDate().isBefore(event.getEndDate()) ||
-                  e.getEndDate().isEqual(event.getEndDate())
-                )
-            ){
-                flag = false;
-                break;
-            }
+            // if(
+            //     ( e.getStartDate().isAfter(event.getStartDate()) ||
+            //       e.getStartDate().isEqual(event.getStartDate()) 
+            //     ) 
+            //     &&
+            //     ( e.getEndDate().isBefore(event.getEndDate()) ||
+            //       e.getEndDate().isEqual(event.getEndDate())
+            //     )
+            // ){
+            //     flag = false;
+            //     break;
+            // }
         }
 
         if(!flag) {
@@ -255,10 +275,12 @@ public class EventServiceFunctions implements EventService {
     }
 
     public List<Event> getEventsByPlace(Place place) {
-        List<Event> events = eventRepository.findAll();
+        List<Event> events      = eventRepository.findAll();
+        List<Event> eventsAux   = new ArrayList<>();
+
         for (Event e : events) 
-            if(!e.getPlace(place.getId())) 
-                events.remove(e);
-        return events;
+            if(e.getPlace(place.getId())) 
+                eventsAux.add(e);
+        return eventsAux;
     }
 }
