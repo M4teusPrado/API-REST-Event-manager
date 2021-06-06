@@ -17,12 +17,17 @@ import org.springframework.web.server.ResponseStatusException;
 import eventoapp.dto.EventDTO;
 import eventoapp.dto.EventTicketDTO;
 import eventoapp.dto.EventUpdateDTO;
+import eventoapp.dto.TicketDTO;
+import eventoapp.models.Attendee;
 import eventoapp.models.Event;
 import eventoapp.models.Place;
+import eventoapp.models.enums.TicketType;
 import eventoapp.repositories.AdminRepository;
+import eventoapp.repositories.AttendeeRepository;
 import eventoapp.repositories.EventRepository;
 import eventoapp.repositories.PlaceRepository;
 import eventoapp.services.AdminService;
+import eventoapp.services.AttendeeService;
 import eventoapp.services.EventService;
 import eventoapp.services.PlaceService;
 
@@ -38,6 +43,12 @@ public class EventServiceFunctions implements EventService {
 
     @Autowired 
     private AdminRepository adminRepository;
+
+    @Autowired
+    private AttendeeService attendeeService;
+
+    @Autowired 
+    private AttendeeRepository attendeeRepository;
 
     @Autowired
     private PlaceRepository placeRepository;
@@ -227,5 +238,33 @@ public class EventServiceFunctions implements EventService {
             if(event.getEndTime().isAfter(e.getStartTime()))
                 return false;
         return true;
+    }
+
+    @Override
+    public void validateTicketAttendee(Long idEvent, TicketDTO ticketDTO) {
+        getEventById(idEvent);
+        attendeeService.getAttendeeById(ticketDTO.getIdAttendee());
+
+        Event       event       = eventRepository.getOne(idEvent);
+        Attendee    attendee    = attendeeRepository.getOne(ticketDTO.getIdAttendee());
+
+        verifyAmountTicketsLeft(event, ticketDTO.getIdAttendee(), ticketDTO.getTypeTicket());
+    }
+
+    private void verifyAmountTicketsLeft(Event event, Long idAttendee, TicketType typeTicket) {
+        if (TicketType.GRATUITO.equals(typeTicket)){
+            if (event.getAmountFreeTickets() <= event.getAmountFreeTicketsSold()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tickets grátuitos esgotados");
+            }
+            
+        }
+        else if (TicketType.PAGO.equals(typeTicket)){
+            if (event.getAmountPayedTickets() <= event.getAmountPayedTicketsSold()){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tickets pagos esgotados");
+            }
+        }
+        else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de ticket inválido");
+        }
     }
 }

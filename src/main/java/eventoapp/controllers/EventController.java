@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import eventoapp.dto.EventDTO;
 import eventoapp.dto.EventTicketDTO;
 import eventoapp.dto.EventUpdateDTO;
+import eventoapp.dto.TicketDTO;
 import eventoapp.models.Event;
 import eventoapp.services.EventService;
 
@@ -96,5 +97,12 @@ public class EventController {
                                             @PathVariable("idPlace") Long idPlace ){
         EventDTO dto = eventService.connectPlaceInEvent(idEvent, idPlace); 
 		return ResponseEntity.ok().body(dto);
+    }
+
+    @PostMapping("/{id}/tickets")
+    public ResponseEntity<TicketDTO> ticketAttendee(@PathVariable("idEvent") Long idEvent, @RequestBody TicketDTO ticketDTO){
+        eventService.validateTicketAttendee(idEvent, ticketDTO);
+
+        return null;
     }
 }
