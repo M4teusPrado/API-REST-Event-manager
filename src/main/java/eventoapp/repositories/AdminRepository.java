@@ -1,5 +1,7 @@
 package eventoapp.repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +16,10 @@ public interface AdminRepository extends JpaRepository <Admin,Long>{
         " SELECT a FROM Admin a "
         )
     public Page<Admin> findAdminPageable(Pageable pageRequest); 
+
+    @Query(
+        " SELECT a FROM Admin a INNER JOIN BaseUser b ON a.id = b.id"
+    )
+
+    public List<Admin> findAdminByEmail(String email);
 }

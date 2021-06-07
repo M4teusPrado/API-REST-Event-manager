@@ -2,6 +2,7 @@ package eventoapp.services;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,12 +24,12 @@ public interface EventService {
 
     public void deleteEvent(Long id);
 
-
     public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDTO);
 
     public EventTicketDTO getEventTicketDTO(Long id);
 
     public EventDTO connectPlaceInEvent(Long idEvent, Long idPlace);
 
-    // public List<EventDTO> toDTOList(List<Event> events);
+    public List<Event> getEventsByPlace(Long id);
+
 }

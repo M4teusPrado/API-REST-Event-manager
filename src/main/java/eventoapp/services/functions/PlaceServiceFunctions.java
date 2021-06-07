@@ -16,6 +16,7 @@ import eventoapp.dto.PlaceDTO;
 import eventoapp.dto.PlaceGetDTO;
 import eventoapp.models.Place;
 import eventoapp.repositories.PlaceRepository;
+import eventoapp.services.EventService;
 import eventoapp.services.PlaceService;
 
 @Service
@@ -23,6 +24,9 @@ public class PlaceServiceFunctions implements PlaceService {
 
     @Autowired
     private PlaceRepository placeRepository;
+
+    @Autowired
+    private EventService eventService;
 
     @Override
     public Page<PlaceGetDTO> getPlaces(PageRequest pageRequest) {
@@ -54,9 +58,12 @@ public class PlaceServiceFunctions implements PlaceService {
     @Override
     public void deletePlace(Long id) {
         getPlaceById(id);
+        if(placeByEvent(id))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Impossivel apagar local, pos ja foi associado a um evento");
         placeRepository.deleteById(id);
     }
 
+  
     @Override
     public Place insertPlace(PlaceDTO placeDTO) {
         Place place = new Place();
@@ -82,4 +89,9 @@ public class PlaceServiceFunctions implements PlaceService {
         place.setName(placeDTO.getName());
         place.setAddress(placeDTO.getAddress());
     }
+
+    private Boolean placeByEvent(Long id) {
+        return eventService.getEventsByPlace(id).isEmpty();
+    }
+
 }

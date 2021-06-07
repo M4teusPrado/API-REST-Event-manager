@@ -49,8 +49,21 @@ public class AdminServiceFunctions implements AdminService {
     @Override
     public Admin insertAdmin(AdminDTO adminDTO) {
         Admin admin = new Admin();
+
+        getAdminByEmail(adminDTO);
+
         adminDTOtoAdmin(admin, adminDTO);
         return adminRepository.save(admin);
+    }
+
+    private Boolean getAdminByEmail(AdminDTO adminDTO) {
+
+        // List<Admin> events    = .findAll();
+        // List<Event> eventsAux = events.
+        //                         stream().
+        //                         filter(e -> e.getPlace(id)).
+        //                         collect(Collectors.toList());
+        return null;
     }
 
     @Override

@@ -182,7 +182,7 @@ public class EventServiceFunctions implements EventService {
         placeService.getPlaceById(idPlace);
         Place place = placeRepository.findById(idPlace).get();
 
-        verifyDateOfPlace(event, place);
+        verifyDateOfPlace(event, idPlace);
         
         event.addPlace(place);
         event = eventRepository.save(event);
@@ -190,19 +190,19 @@ public class EventServiceFunctions implements EventService {
         return new EventDTO(event);
     }
 
-    public void verifyDateOfPlace(Event event, Place place) {
-        List<Event> events = getEventsByPlace(place);
+    public void verifyDateOfPlace(Event event, Long idPlace) {
+        List<Event> events = getEventsByPlace(idPlace);
 
         for (Event e : events)
             if(!validDate(e, event)) 
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Horario invalido");
     }
 
-    public List<Event> getEventsByPlace(Place place) {
+    public List<Event> getEventsByPlace(Long id) {
         List<Event> events      = eventRepository.findAll();
         List<Event> eventsAux = events.
                                 stream().
-                                filter(e -> e.getPlace(place.getId())).
+                                filter(e -> e.getPlace(id)).
                                 collect(Collectors.toList());
         return eventsAux;
     }
