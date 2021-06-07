@@ -31,16 +31,18 @@ public class Event implements Serializable{
     @GeneratedValue( strategy = GenerationType.IDENTITY) 
     private Long id;
     
-    private String name;
-    private String description;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private String emailContact;
-    private Long amountFreeTickets;
-    private Long amountPayedTickets;
-    private Double priceTickets;
+    private String      name;
+    private String      description;
+    private LocalDate   startDate;
+    private LocalDate   endDate;
+    private LocalTime   startTime;
+    private LocalTime   endTime;
+    private String      emailContact;
+    private Long        amountFreeTickets;
+    private Long        amountPayedTickets;
+    private Long        amountFreeTicketsSold;
+    private Long        amountPayedTicketsSold;
+    private Double      priceTickets;
     
     @ManyToMany()
     @JoinTable(
