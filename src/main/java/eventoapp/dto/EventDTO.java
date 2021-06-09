@@ -14,17 +14,17 @@ import lombok.Setter;
 @Setter
 public class EventDTO {
     
-    private String name;
-    private String description;
+    private String      name;
+    private String      description;
     private List<Place> places = new ArrayList<>();
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private String emailContact;
-    private Long amountFreeTickets;
-    private Long amountPayedTickets;
-    private Double priceTickets;
+    private LocalDate   startDate;
+    private LocalDate   endDate;
+    private LocalTime   startTime;
+    private LocalTime   endTime;
+    private String      emailContact;
+    private Long         amountFreeTickets;
+    private Long         amountPayedTickets;
+    private Double      priceTickets;
 
     public EventDTO(Event event) {
         this.name = event.getName();

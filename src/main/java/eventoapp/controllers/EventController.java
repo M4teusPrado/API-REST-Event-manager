@@ -100,8 +100,9 @@ public class EventController {
     }
 
     @PostMapping("/{id}/tickets")
-    public ResponseEntity<TicketDTO> ticketAttendee(@PathVariable("idEvent") Long idEvent, @RequestBody TicketDTO ticketDTO){
-        eventService.validateTicketAttendee(idEvent, ticketDTO);
+    public ResponseEntity<TicketDTO> ticketAttendee(@PathVariable Long id, @RequestBody TicketDTO ticketDTO){
+        //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CUUUUUU");
+        eventService.validateTicketAttendee(id, ticketDTO);
 
         return null;
     }

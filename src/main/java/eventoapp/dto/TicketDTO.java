@@ -1,6 +1,5 @@
 package eventoapp.dto;
 
-import eventoapp.models.enums.TicketType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class TicketDTO {
     private Long        idAttendee;
-    private TicketType  typeTicket;
+    private String      typeTicket;
 
     public TicketDTO() {}
 }

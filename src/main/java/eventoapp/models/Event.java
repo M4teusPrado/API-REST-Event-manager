@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,10 +42,10 @@ public class Event implements Serializable{
     private String      emailContact;
     private Long        amountFreeTickets;
     private Long        amountPayedTickets;
-    private Long        amountFreeTicketsSold;
-    private Long        amountPayedTicketsSold;
+    private Long        amountFreeTicketsSold   = 0L;
+    private Long        amountPayedTicketsSold  = 0L;
     private Double      priceTickets;
-    
+
     @ManyToMany()
     @JoinTable(
         name="PLACE_EVENT",
@@ -62,6 +64,10 @@ public class Event implements Serializable{
     @JoinColumn(name ="EVENT_ID")
     private List<Ticket> tickets = new ArrayList<>();
 
+    public void initializerVariable(){
+        this.amountFreeTicketsSold = 0L;
+        this.amountPayedTicketsSold = 0L;
+    }
 
     public void addPlace(Place place) {
         this.places.add(place);

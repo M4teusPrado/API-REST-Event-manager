@@ -242,26 +242,48 @@ public class EventServiceFunctions implements EventService {
 
     @Override
     public void validateTicketAttendee(Long idEvent, TicketDTO ticketDTO) {
+        TicketType ticketType = verifyTicketType(ticketDTO.getTypeTicket());
+
         getEventById(idEvent);
         attendeeService.getAttendeeById(ticketDTO.getIdAttendee());
 
         Event       event       = eventRepository.getOne(idEvent);
         Attendee    attendee    = attendeeRepository.getOne(ticketDTO.getIdAttendee());
 
-        verifyAmountTicketsLeft(event, ticketDTO.getIdAttendee(), ticketDTO.getTypeTicket());
+        verifyAmountTicketsLeft(event, ticketDTO.getIdAttendee(), ticketType);
+        verifyBlanceAttendee(attendee, event, ticketDTO.getTypeTicket());
+        eventRepository.save(event);
+    }
+
+    private TicketType verifyTicketType(String typeTicket) {
+        if (typeTicket.toUpperCase().trim().equals("GRATUITO") || typeTicket.toUpperCase().trim().equals("PAGO")){
+            return TicketType.valueOf(typeTicket.toUpperCase().trim());
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de ticket inválido");
+    }
+
+    private void verifyBlanceAttendee(Attendee attendee, Event event, String typeTicket) {
+        if (attendee.getBalance() < event.getPriceTickets()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Attendee não possui saldo suficiente");
+        }
+        if (typeTicket.toUpperCase().trim().equals("PAGO")){
+            attendee.setBalance(attendee.getBalance() - (float) event.getPriceTickets());
+        }
     }
 
     private void verifyAmountTicketsLeft(Event event, Long idAttendee, TicketType typeTicket) {
-        if (TicketType.GRATUITO.equals(typeTicket)){
+        if (TicketType.GRATUITO == typeTicket){
+            
             if (event.getAmountFreeTickets() <= event.getAmountFreeTicketsSold()){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tickets grátuitos esgotados");
             }
-            
+            event.setAmountFreeTicketsSold(event.getAmountFreeTicketsSold() + 1L);
         }
-        else if (TicketType.PAGO.equals(typeTicket)){
+        else if (TicketType.PAGO == typeTicket){
             if (event.getAmountPayedTickets() <= event.getAmountPayedTicketsSold()){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tickets pagos esgotados");
             }
+            event.setAmountPayedTicketsSold(event.getAmountPayedTicketsSold() + 1L);
         }
         else{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de ticket inválido");
