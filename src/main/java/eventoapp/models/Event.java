@@ -16,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.springframework.beans.factory.annotation.Value;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -67,6 +66,10 @@ public class Event implements Serializable{
     public void initializerVariable(){
         this.amountFreeTicketsSold = 0L;
         this.amountPayedTicketsSold = 0L;
+    }
+
+    public void addTicket(Ticket ticket) {
+        this.tickets.add(ticket);
     }
 
     public void addPlace(Place place) {

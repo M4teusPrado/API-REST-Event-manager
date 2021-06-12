@@ -2,6 +2,7 @@ package eventoapp.services.functions;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,11 +17,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 import eventoapp.dto.EventDTO;
 import eventoapp.dto.EventTicketDTO;
+import eventoapp.dto.EventTicketListDTO;
 import eventoapp.dto.EventUpdateDTO;
 import eventoapp.dto.TicketDTO;
+import eventoapp.dto.TicketGetDTO;
 import eventoapp.models.Attendee;
 import eventoapp.models.Event;
 import eventoapp.models.Place;
+import eventoapp.models.Ticket;
 import eventoapp.models.enums.TicketType;
 import eventoapp.repositories.AdminRepository;
 import eventoapp.repositories.AttendeeRepository;
@@ -177,11 +181,24 @@ public class EventServiceFunctions implements EventService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel atualizar evento");
     }
 
-    public EventTicketDTO getEventTicketDTO(Long id){
-        EventDTO        eventAux        =       getEventById(id);
-        EventTicketDTO  eventTicketAux  = new   EventTicketDTO(eventAux);
+    public EventTicketListDTO getEventTicketDTO(Long id){
+        Event               eventAux            =       eventRepository.getOne(id);
+        EventTicketDTO      eventTicketAux      = new   EventTicketDTO(eventAux);
+        List<TicketGetDTO>  tickets             = ticketsToDTO(eventAux.getTickets()); 
+        EventTicketListDTO eventTicketListDTO   = new EventTicketListDTO(tickets, eventTicketAux);
 
-        return eventTicketAux;
+        return eventTicketListDTO;
+    }
+
+    private List<TicketGetDTO> ticketsToDTO(List<Ticket> tickets) {
+        List<TicketGetDTO> ticketsListDTO = new ArrayList<>();
+        
+        for (Ticket ticket : tickets) {
+            TicketGetDTO ticketDTO = new TicketGetDTO(ticket);
+            ticketsListDTO.add(ticketDTO);
+        }
+
+        return ticketsListDTO;
     }
 
     @Override
@@ -241,7 +258,7 @@ public class EventServiceFunctions implements EventService {
     }
 
     @Override
-    public void validateTicketAttendee(Long idEvent, TicketDTO ticketDTO) {
+    public Ticket validateTicketAttendee(Long idEvent, TicketDTO ticketDTO) {
         TicketType ticketType = verifyTicketType(ticketDTO.getTypeTicket());
 
         getEventById(idEvent);
@@ -249,10 +266,24 @@ public class EventServiceFunctions implements EventService {
 
         Event       event       = eventRepository.getOne(idEvent);
         Attendee    attendee    = attendeeRepository.getOne(ticketDTO.getIdAttendee());
-
+        
         verifyAmountTicketsLeft(event, ticketDTO.getIdAttendee(), ticketType);
         verifyBlanceAttendee(attendee, event, ticketDTO.getTypeTicket());
+        
+        Ticket ticket = createTicket(event, attendee, ticketDTO.getTypeTicket(), ticketType);
+
         eventRepository.save(event);
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "AAAAAAAAAAAAAAAAAAAAAAAAAA");
+        // attendeeRepository.save(attendee);
+        
+        // return ticket;
+    }
+
+    private Ticket createTicket(Event event, Attendee attendee, String typeTicket, TicketType ticketType) {
+        Ticket ticket = new Ticket(event, attendee, typeTicket, ticketType);
+        attendee.addTicktes(ticket);
+        event.addTicket(ticket);
+        return ticket;
     }
 
     private TicketType verifyTicketType(String typeTicket) {
@@ -263,18 +294,21 @@ public class EventServiceFunctions implements EventService {
     }
 
     private void verifyBlanceAttendee(Attendee attendee, Event event, String typeTicket) {
-        if (attendee.getBalance() < event.getPriceTickets()){
+        if (attendee.getBalance() < event.getPriceTickets() && typeTicket.toUpperCase().trim().equals("PAGO")){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Attendee não possui saldo suficiente");
         }
         if (typeTicket.toUpperCase().trim().equals("PAGO")){
-            attendee.setBalance(attendee.getBalance() - (float) event.getPriceTickets());
+            attendee.setBalance(attendee.getBalance() - (convertToFloat(event.getPriceTickets())));
         }
+    }
+
+    private static Float convertToFloat(Double doubleValue) {
+        return doubleValue == null ? null : doubleValue.floatValue();
     }
 
     private void verifyAmountTicketsLeft(Event event, Long idAttendee, TicketType typeTicket) {
         if (TicketType.GRATUITO == typeTicket){
-            
-            if (event.getAmountFreeTickets() <= event.getAmountFreeTicketsSold()){
+            if (event.getAmountFreeTickets().compareTo(event.getAmountFreeTicketsSold()) <= 0 ){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tickets grátuitos esgotados");
             }
             event.setAmountFreeTicketsSold(event.getAmountFreeTicketsSold() + 1L);

@@ -21,9 +21,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import eventoapp.dto.EventDTO;
 import eventoapp.dto.EventTicketDTO;
+import eventoapp.dto.EventTicketListDTO;
 import eventoapp.dto.EventUpdateDTO;
 import eventoapp.dto.TicketDTO;
 import eventoapp.models.Event;
+import eventoapp.models.Ticket;
 import eventoapp.services.EventService;
 
 @RestController
@@ -66,7 +68,7 @@ public class EventController {
     }
 
     @GetMapping("{id}/tickets")
-    public ResponseEntity<EventTicketDTO> getTicketsOfEventById(@PathVariable Long id) {
+    public ResponseEntity<EventTicketListDTO> getTicketsOfEventById(@PathVariable Long id) {
         return ResponseEntity.ok().body(eventService.getEventTicketDTO(id));
     }
 
@@ -100,10 +102,10 @@ public class EventController {
     }
 
     @PostMapping("/{id}/tickets")
-    public ResponseEntity<TicketDTO> ticketAttendee(@PathVariable Long id, @RequestBody TicketDTO ticketDTO){
+    public ResponseEntity<Ticket> ticketAttendee(@PathVariable Long id, @RequestBody TicketDTO ticketDTO){
         //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CUUUUUU");
-        eventService.validateTicketAttendee(id, ticketDTO);
+        Ticket ticket = eventService.validateTicketAttendee(id, ticketDTO);
 
-        return null;
+        return ResponseEntity.ok().body(ticket);
     }
 }

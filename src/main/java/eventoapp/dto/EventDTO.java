@@ -26,6 +26,9 @@ public class EventDTO {
     private Long         amountPayedTickets;
     private Double      priceTickets;
 
+    public EventDTO() {
+    }
+
     public EventDTO(Event event) {
         this.name = event.getName();
         this.description = event.getDescription();

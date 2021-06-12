@@ -9,9 +9,11 @@ import org.springframework.data.domain.PageRequest;
 
 import eventoapp.dto.EventDTO;
 import eventoapp.dto.EventTicketDTO;
+import eventoapp.dto.EventTicketListDTO;
 import eventoapp.dto.EventUpdateDTO;
 import eventoapp.dto.TicketDTO;
 import eventoapp.models.Event;
+import eventoapp.models.Ticket;
 
 public interface EventService {
 
@@ -27,11 +29,11 @@ public interface EventService {
 
     public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDTO);
 
-    public EventTicketDTO getEventTicketDTO(Long id);
+    public EventTicketListDTO getEventTicketDTO(Long id);
 
     public EventDTO connectPlaceInEvent(Long idEvent, Long idPlace);
 
-    public void validateTicketAttendee(Long idEvent, TicketDTO ticketDTO);
+    public Ticket validateTicketAttendee(Long idEvent, TicketDTO ticketDTO);
 
     public List<Event> getEventsByPlace(Long id);
     

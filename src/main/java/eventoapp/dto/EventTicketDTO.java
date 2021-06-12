@@ -1,5 +1,6 @@
 package eventoapp.dto;
 
+import eventoapp.models.Event;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,10 +12,13 @@ public class EventTicketDTO {
     private Long totalPayedTicketsSold;
     private Long totalFreeTicketsSold;
 
-    public EventTicketDTO(EventDTO event) {
-        this.totalPayedTickets       = event.getAmountPayedTickets();
-        this.totalFreeTickets        = event.getAmountFreeTickets();
-        /*this.balance    = attendee.getBalance();
-        this.tickets    = attendee.getTickets();*/
+    public EventTicketDTO() {
+    }
+    
+    public EventTicketDTO(Event eventAux) {
+        this.totalPayedTickets          = eventAux.getAmountPayedTickets();
+        this.totalFreeTickets           = eventAux.getAmountFreeTickets();
+        this.totalPayedTicketsSold      = eventAux.getAmountPayedTicketsSold();
+        this.totalFreeTicketsSold       = eventAux.getAmountFreeTicketsSold();
     }
 }

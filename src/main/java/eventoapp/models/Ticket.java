@@ -42,6 +42,16 @@ public class Ticket implements Serializable {
         this.attendee = attendee;
     }
 
+    public Ticket(Event event, Attendee attendee, String typeTicket, TicketType ticketType) {
+        this.attendee = attendee;
+        this.date = getDate();
+        this.event = event;
+        this.type = ticketType;
+        if (typeTicket == "PAGO"){
+            this.price = event.getPriceTickets();
+        }
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
