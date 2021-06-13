@@ -268,15 +268,16 @@ public class EventServiceFunctions implements EventService {
         Attendee    attendee    = attendeeRepository.getOne(ticketDTO.getIdAttendee());
         
         verifyAmountTicketsLeft(event, ticketDTO.getIdAttendee(), ticketType);
-        verifyBlanceAttendee(attendee, event, ticketDTO.getTypeTicket());
+        verifyBalanceAttendee(attendee, event, ticketDTO.getTypeTicket());
         
         Ticket ticket = createTicket(event, attendee, ticketDTO.getTypeTicket(), ticketType);
-
+        //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "AAAAAAAAAAAAAAAAAAAAAAAAAA");
+        attendeeRepository.save(attendee);
         eventRepository.save(event);
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "AAAAAAAAAAAAAAAAAAAAAAAAAA");
-        // attendeeRepository.save(attendee);
+        // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "AAAAAAAAAAAAAAAAAAAAAAAAAA");
+
         
-        // return ticket;
+        return ticket;
     }
 
     private Ticket createTicket(Event event, Attendee attendee, String typeTicket, TicketType ticketType) {
@@ -293,7 +294,7 @@ public class EventServiceFunctions implements EventService {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de ticket inválido");
     }
 
-    private void verifyBlanceAttendee(Attendee attendee, Event event, String typeTicket) {
+    private void verifyBalanceAttendee(Attendee attendee, Event event, String typeTicket) {
         if (attendee.getBalance() < event.getPriceTickets() && typeTicket.toUpperCase().trim().equals("PAGO")){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Attendee não possui saldo suficiente");
         }
