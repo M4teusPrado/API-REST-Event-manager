@@ -6,8 +6,12 @@ import java.time.Instant;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import eventoapp.models.enums.TicketType;
 import lombok.Getter;
@@ -19,6 +23,7 @@ import lombok.Setter;
 public class Ticket implements Serializable {
 
     @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY) 
     private Long id;
     
     @Enumerated(value = EnumType.STRING)
@@ -26,6 +31,7 @@ public class Ticket implements Serializable {
     private Instant date;
     private Double price;
 
+    @JsonIgnore()
     @ManyToOne()
     private Attendee attendee;
 
@@ -44,11 +50,14 @@ public class Ticket implements Serializable {
 
     public Ticket(Event event, Attendee attendee, String typeTicket, TicketType ticketType) {
         this.attendee = attendee;
-        this.date = getDate();
+        this.date = Instant.now();
         this.event = event;
         this.type = ticketType;
         if (typeTicket == "PAGO"){
             this.price = event.getPriceTickets();
+        }
+        else{
+            this.price = 0.0;
         }
     }
 

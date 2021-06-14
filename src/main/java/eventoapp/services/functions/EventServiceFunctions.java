@@ -30,6 +30,7 @@ import eventoapp.repositories.AdminRepository;
 import eventoapp.repositories.AttendeeRepository;
 import eventoapp.repositories.EventRepository;
 import eventoapp.repositories.PlaceRepository;
+import eventoapp.repositories.TicketRepository;
 import eventoapp.services.AdminService;
 import eventoapp.services.AttendeeService;
 import eventoapp.services.EventService;
@@ -41,6 +42,9 @@ public class EventServiceFunctions implements EventService {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
+    private TicketRepository ticketRepository;
 
     @Autowired
     private AdminService adminService;
@@ -272,6 +276,7 @@ public class EventServiceFunctions implements EventService {
         
         Ticket ticket = createTicket(event, attendee, ticketDTO.getTypeTicket(), ticketType);
         //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "AAAAAAAAAAAAAAAAAAAAAAAAAA");
+        ticketRepository.save(ticket);
         attendeeRepository.save(attendee);
         eventRepository.save(event);
         // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "AAAAAAAAAAAAAAAAAAAAAAAAAA");
