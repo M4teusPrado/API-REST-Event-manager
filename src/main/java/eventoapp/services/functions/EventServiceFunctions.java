@@ -188,7 +188,7 @@ public class EventServiceFunctions implements EventService {
     public EventTicketListDTO getEventTicketDTO(Long id){
         Event               eventAux            =       eventRepository.getOne(id);
         EventTicketDTO      eventTicketAux      = new   EventTicketDTO(eventAux);
-        List<TicketGetDTO>  tickets             = ticketsToDTO(eventAux.getTickets()); 
+        List<TicketGetDTO>  tickets             = ticketsToDTO(eventAux.getTickets());
         EventTicketListDTO eventTicketListDTO   = new EventTicketListDTO(tickets, eventTicketAux);
 
         return eventTicketListDTO;
