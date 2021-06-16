@@ -50,6 +50,12 @@
     }
 
 
+**Ticket**
+       {
+               "idAttendee": 4,
+               "typeTicket": "pago"
+       }
+
 ## Link do Projeto no Heroku
 
 Projeto: https://api-event-poo.herokuapp.com/
