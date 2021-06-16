@@ -346,17 +346,28 @@ public class EventServiceFunctions implements EventService {
         Event       event       = eventRepository.getOne(idEvent);
         Attendee    attendee    = attendeeRepository.getOne(ticketDTO.getIdAttendee());
 
-        Ticket ticket = createTicket(event, attendee, ticketDTO.getTypeTicket(), ticketType);
+        Ticket ticket = verifyTicketExists(ticketType, attendee, idEvent);
 
         devolutionBallanceToAttendee(attendee, ticket, ticketDTO.getTypeTicket());  
         devolutionTicketToEvent(event, ticket, ticketDTO.getTypeTicket());
+        
+        eventRepository.save(event);
+        attendeeRepository.save(attendee);
+        ticketRepository.delete(ticket);
+    }
+
+    private Ticket verifyTicketExists(TicketType typeTicket, Attendee attendee, Long idEvent) {
+        List<Ticket> attendeesTickets = attendee.getTickets();
+
+        for (Ticket ticket : attendeesTickets) {
+            if (idEvent == ticket.getEvent().getId() && typeTicket == ticket.getType()){
+                return ticket;
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket não encontrado");
     }
 
     private void devolutionBallanceToAttendee(Attendee attendee, Ticket ticket, String typeTicket) {
-
-        if(attendee.getTickets().stream().filter(t -> t.getId() == ticket.getId()).collect(Collectors.toList()).isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket não encontrado");
-        
         attendee.removeTickte(ticket.getId());
 
         if (typeTicket.toUpperCase().trim().equals("PAGO"))
@@ -364,14 +375,13 @@ public class EventServiceFunctions implements EventService {
     }
 
     private void devolutionTicketToEvent(Event event, Ticket ticket, String typeTicket) {
+        event.removeTicket(ticket.getId());
 
         if (typeTicket.toUpperCase().trim().equals("PAGO")){
             event.setAmountPayedTicketsSold(event.getAmountPayedTicketsSold() - 1);
-            event.setAmountPayedTickets(event.getAmountFreeTickets() + 1);
         }
         else {
             event.setAmountFreeTicketsSold(event.getAmountFreeTicketsSold() - 1);
-            event.setAmountFreeTickets(event.getAmountFreeTickets() + 1);
         }
         
 
