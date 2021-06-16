@@ -113,4 +113,8 @@ public class Event implements Serializable{
         return false;
         return true;
     }
+
+    public void removeTicket(Long id) {
+        this.tickets.removeIf( t -> t.getId() == id);
+    }
 }
