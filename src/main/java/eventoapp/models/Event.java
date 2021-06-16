@@ -39,8 +39,8 @@ public class Event implements Serializable{
     private LocalTime   startTime;
     private LocalTime   endTime;
     private String      emailContact;
-    private Long        amountFreeTickets;
-    private Long        amountPayedTickets;
+    private Long        amountFreeTickets = 0L;
+    private Long        amountPayedTickets = 0L;
     private Long        amountFreeTicketsSold   = 0L;
     private Long        amountPayedTicketsSold  = 0L;
     private Double      priceTickets;

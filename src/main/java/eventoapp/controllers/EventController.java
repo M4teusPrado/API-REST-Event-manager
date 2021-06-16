@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import eventoapp.dto.EventDTO;
-import eventoapp.dto.EventTicketDTO;
 import eventoapp.dto.EventTicketListDTO;
 import eventoapp.dto.EventUpdateDTO;
 import eventoapp.dto.TicketDTO;
@@ -104,9 +103,13 @@ public class EventController {
 
     @PostMapping("/{id}/tickets")
     public ResponseEntity<Ticket> ticketAttendee(@PathVariable Long id, @RequestBody TicketDTO ticketDTO){
-        //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CUUUUUU");
         Ticket ticket = eventService.validateTicketAttendee(id, ticketDTO);
-
         return ResponseEntity.ok().body(ticket);
+    }
+
+    @DeleteMapping("/{id}/tickets")
+    public ResponseEntity<Ticket> devolutionTicket(@PathVariable Long id, @RequestBody TicketDTO ticketDTO){
+        eventService.devolutionTicket(id, ticketDTO);
+        return ResponseEntity.noContent().build();
     }
 }

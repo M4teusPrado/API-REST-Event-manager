@@ -1,10 +1,7 @@
 package eventoapp.dto;
 
-import java.util.List;
 
-import eventoapp.models.Attendee;
-import eventoapp.models.Event;
-import eventoapp.models.Place;
+
 import eventoapp.models.Ticket;
 import eventoapp.models.enums.TicketType;
 import lombok.Getter;

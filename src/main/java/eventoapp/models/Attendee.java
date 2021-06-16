@@ -35,4 +35,8 @@ public class Attendee extends BaseUser {
     public void addTicktes(Ticket e) {
         this.tickets.add(e);
     }
+
+    public void removeTickte(Long id) {
+        this.tickets.removeIf( t -> t.getId() == id);
+    }
 }

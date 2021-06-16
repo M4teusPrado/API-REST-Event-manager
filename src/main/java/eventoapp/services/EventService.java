@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import eventoapp.dto.EventDTO;
-import eventoapp.dto.EventTicketDTO;
 import eventoapp.dto.EventTicketListDTO;
 import eventoapp.dto.EventUpdateDTO;
 import eventoapp.dto.TicketDTO;
@@ -36,6 +35,8 @@ public interface EventService {
     public Ticket validateTicketAttendee(Long idEvent, TicketDTO ticketDTO);
 
     public List<Event> getEventsByPlace(Long id);
+
+    public void devolutionTicket(Long idEvent, TicketDTO ticketDTO);
     
     // public List<EventDTO> toDTOList(List<Event> events);
 }
