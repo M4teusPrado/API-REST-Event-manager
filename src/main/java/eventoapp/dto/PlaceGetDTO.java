@@ -10,6 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PlaceGetDTO {
+
+    private Long        id;
     
     private String      name; 
     private String      address;
@@ -18,6 +20,7 @@ public class PlaceGetDTO {
     public PlaceGetDTO() {}
 
 	public PlaceGetDTO(Place place) {
+        this.id         = place.getId();
         this.name       = place.getName();
         this.address    = place.getAddress();
         this.events     = place.getEvents();

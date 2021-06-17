@@ -11,12 +11,15 @@ import lombok.Setter;
 @Setter
 public class TicketGetDTO {
     
+    private Long        id;
+
     private String      name;
     private TicketType  ticketType;
 
     public TicketGetDTO() {}
 
 	public TicketGetDTO(Ticket ticket) {
+        this.id             = ticket.getId();
         this.name           = ticket.getAttendee().getName();
         this.ticketType     = ticket.getType();
 	}

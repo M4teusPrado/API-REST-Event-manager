@@ -10,7 +10,8 @@ import lombok.Setter;
 @Setter 
 @Getter 
 public class AdminGetDTO {
-    
+
+    private Long id;
     private String          name;
     private String          email;
     private String          phoneNumber;
@@ -19,6 +20,7 @@ public class AdminGetDTO {
     public AdminGetDTO() {}
 
     public AdminGetDTO(Admin admin) {
+        this.id             = admin.getId();
         this.name           = admin.getName();
         this.email          = admin.getEmail();
         this.phoneNumber    = admin.getPhoneNumber();

@@ -11,12 +11,14 @@ import lombok.Setter;
 @Getter 
 public class AttendeeGetDTO {
     
+    private Long            id;
     private String          name;
     private String          email;
     private float           balance;
     private List<Ticket>    tickets;
     
     public AttendeeGetDTO(Attendee attendee) {
+        this.id         = attendee.getId();
         this.name       = attendee.getName();
         this.email      = attendee.getEmail();
         this.balance    = attendee.getBalance();
