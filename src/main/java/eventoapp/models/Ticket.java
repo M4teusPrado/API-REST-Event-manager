@@ -53,7 +53,8 @@ public class Ticket implements Serializable {
         this.date = Instant.now();
         this.event = event;
         this.type = ticketType;
-        if (typeTicket == "PAGO"){
+        
+        if (typeTicket.toUpperCase().trim().equals("PAGO")){
             this.price = event.getPriceTickets();
         }
         else{
