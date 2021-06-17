@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -59,6 +60,7 @@ public class Event implements Serializable{
     @JoinColumn(name="ADMIN_USER_ID")
     private Admin admin;
 
+    @JsonIgnore
     @OneToMany()
     @JoinColumn(name ="EVENT_ID")
     private List<Ticket> tickets = new ArrayList<>();

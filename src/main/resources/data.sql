@@ -34,7 +34,9 @@ INSERT INTO EVENT (
         end_time, 
         email_contact, 
         amount_payed_tickets, 
-        amount_free_tickets, 
+        amount_free_tickets,
+        amount_free_tickets_sold,
+        amount_payed_tickets_sold,
         price_tickets, 
         admin_user_id
 ) 
@@ -48,6 +50,8 @@ INSERT INTO EVENT (
         'abrilfest@gmail.com',
         760,
         500,
+        0,
+        0,
         25,
         1
 );
@@ -61,7 +65,9 @@ INSERT INTO EVENT (
         end_time, 
         email_contact, 
         amount_payed_tickets, 
-        amount_free_tickets, 
+        amount_free_tickets,
+        amount_free_tickets_sold,
+        amount_payed_tickets_sold,
         price_tickets, 
         admin_user_id
 ) 
@@ -75,6 +81,8 @@ INSERT INTO EVENT (
         'halloween@gmail.com',
         7160,
         500,
+        0,
+        0,
         45,
         2
 );
@@ -90,7 +98,9 @@ INSERT INTO EVENT (
         end_time, 
         email_contact, 
         amount_payed_tickets, 
-        amount_free_tickets, 
+        amount_free_tickets,
+        amount_free_tickets_sold,
+        amount_payed_tickets_sold,
         price_tickets, 
         admin_user_id
 ) 
@@ -104,6 +114,8 @@ INSERT INTO EVENT (
         'festajunina@gmail.com',
         80000,
         500,
+        0,
+        0,
         15,
         3
 );
