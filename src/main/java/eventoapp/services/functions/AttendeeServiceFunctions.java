@@ -49,14 +49,23 @@ public class AttendeeServiceFunctions implements AttendeeService {
     @Override
     public Attendee insertAttendee(AttendeeDTO attendeeDTO) {
         Attendee attendee = new Attendee();
+        getAttendeeByEmail(attendeeDTO);
         attendeeDTOtoAttendee(attendee, attendeeDTO);
         return attendeeRepository.save(attendee);
+    }
+
+    private void getAttendeeByEmail(AttendeeDTO attendeeDTO) {
+        List<Attendee> attendees = attendeeRepository.findAttendeeByEmail(attendeeDTO.getEmail());
+
+        if(!attendees.isEmpty())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email ja cadastrado");
     }
 
     @Override
     public AttendeeDTO updateEvent(Long id, AttendeeDTO attendeeDTO) {
 
         try {
+            getAttendeeByEmail(attendeeDTO);
             Attendee attendee = attendeeRepository.getOne(id);
             attendeeDTOtoAttendee(attendee, attendeeDTO);
             attendee = attendeeRepository.save(attendee);

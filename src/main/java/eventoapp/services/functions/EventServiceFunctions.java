@@ -67,6 +67,9 @@ public class EventServiceFunctions implements EventService {
     @Override
     public Event insertEvent(Event event) {
 
+        verifyPossibilityOfInsert(event, LocalDate.now());
+        getEventByEmail(event.getEmailContact());
+
         verifyDateAndTime(
             event.getStartDate(),
             event.getEndDate(),
@@ -156,6 +159,8 @@ public class EventServiceFunctions implements EventService {
             Event event = eventRepository.getOne(id);
             
             verifyPossibilityOfUpdate(event, LocalDate.now());
+
+            getEventByEmail(eventUpdateDTO.getEmailContact());
             
             verifyDateAndTime(
                 eventUpdateDTO.getStartDate(),
@@ -185,11 +190,27 @@ public class EventServiceFunctions implements EventService {
     private void verifyPossibilityOfUpdate(Event event, LocalDate today) {   
         if( event.getStartDate().isBefore(today) || 
             (event.getStartDate().equals(today)  && event.getStartTime().equals(LocalTime.now())))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel atualizar evento");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel atualizar evento no passado");
+    }
+
+    private void verifyPossibilityOfInsert(Event event, LocalDate today) {   
+        if( event.getStartDate().isBefore(today) || 
+            (event.getStartDate().equals(today)  && event.getStartTime().equals(LocalTime.now())))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel criar evento no passado");
+    }
+
+    private void getEventByEmail(String email) {
+        List<Event> events = eventRepository.findAttendeeByEmail(email);
+
+        if(!events.isEmpty())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email ja cadastrado");
     }
 
     public EventTicketListDTO getEventTicketDTO(Long id){
+
+        getEventById(id);
         Event               eventAux            =       eventRepository.getOne(id);
+        
         EventTicketDTO      eventTicketAux      = new   EventTicketDTO(eventAux);
         List<TicketGetDTO>  tickets             = ticketsToDTO(eventAux.getTickets());
         EventTicketListDTO eventTicketListDTO   = new EventTicketListDTO(tickets, eventTicketAux);

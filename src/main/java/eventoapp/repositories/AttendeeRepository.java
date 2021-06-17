@@ -1,6 +1,8 @@
 package eventoapp.repositories;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,4 +20,10 @@ public interface AttendeeRepository extends JpaRepository <Attendee,Long>{
             " SELECT a FROM Attendee a "
         )
     Page<Attendee> find(Pageable pageRequest);
+
+    @Query(
+        " SELECT a FROM Attendee a INNER JOIN BaseUser b ON a.id = b.id " +
+        " WHERE ( LOWER(b.email) = LOWER(:email) )"
+    )
+    public List<Attendee> findAttendeeByEmail(String email);
 }

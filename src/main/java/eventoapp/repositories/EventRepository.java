@@ -1,6 +1,7 @@
 package eventoapp.repositories;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,4 +27,10 @@ public interface EventRepository extends JpaRepository <Event,Long>{
                             String description,
                             LocalDate startDateAux
                             );
+
+    @Query(
+        " SELECT e FROM Event e " +
+        " WHERE ( LOWER(e.emailContact) = LOWER(:email) )"
+    )
+    public List<Event> findAttendeeByEmail(String email);
 }

@@ -49,27 +49,23 @@ public class AdminServiceFunctions implements AdminService {
     @Override
     public Admin insertAdmin(AdminDTO adminDTO) {
         Admin admin = new Admin();
-
         getAdminByEmail(adminDTO);
-
         adminDTOtoAdmin(admin, adminDTO);
         return adminRepository.save(admin);
     }
 
-    private Boolean getAdminByEmail(AdminDTO adminDTO) {
+    private void getAdminByEmail(AdminDTO adminDTO) {
+        List<Admin> admins = adminRepository.findAdminByEmail(adminDTO.getEmail());
 
-        // List<Admin> events    = .findAll();
-        // List<Event> eventsAux = events.
-        //                         stream().
-        //                         filter(e -> e.getPlace(id)).
-        //                         collect(Collectors.toList());
-        return null;
+        if(!admins.isEmpty())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email ja cadastrado");
     }
 
     @Override
     public AdminDTO updateEvent(Long id, AdminDTO adminDTO) {
 
         try {
+            getAdminByEmail(adminDTO);
             Admin admin = adminRepository.getOne(id);
             adminDTOtoAdmin(admin, adminDTO);
             admin = adminRepository.save(admin);

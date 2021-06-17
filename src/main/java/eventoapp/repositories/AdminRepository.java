@@ -18,8 +18,8 @@ public interface AdminRepository extends JpaRepository <Admin,Long>{
     public Page<Admin> findAdminPageable(Pageable pageRequest); 
 
     @Query(
-        " SELECT a FROM Admin a INNER JOIN BaseUser b ON a.id = b.id"
+        " SELECT a FROM Admin a INNER JOIN BaseUser b ON a.id = b.id " +
+        " WHERE ( LOWER(b.email) = LOWER(:email) )"
     )
-
     public List<Admin> findAdminByEmail(String email);
 }
