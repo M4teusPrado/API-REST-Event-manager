@@ -1,8 +1,27 @@
-# Events_API_AC1
+# API REST DESENVOLVIDA PARA TRABALHO DE POO II
 
-### Participantes
-- Mateus da Silva do Prado - 190477
-- Felipe Lima de Carvalho - 190190
+## Link do Projeto no Heroku
+
+Projeto: https://api-event-poo.herokuapp.com/
+
+## Escopo
+
+![ModeloConceitual](https://user-images.githubusercontent.com/59894662/136452598-783f001f-1e53-40df-818c-2f5d239bc911.png)
+
+
+## ENUNCIADO
+
+Desenvolver um sistema para controlar eventos.
+
+Um evento pode ser criado por qualquer usuário administrador. Ao criar um evento o usuário administrador deverá definir a quantidade de ingressos gratuitos, quantidade de ingressos pagos, valor do ingresso pago.
+
+Um evento poderá ser realizado em um ou mais lugares. E um lugar poderá ser usado por zero ou mais eventos, porém em datas e horários diferentes. Ao alterar o local ou data de um evento, verificar se isso é possível. Não será possível alterar as informações do evento após a sua realização. Um evento que já tenha ingressos vendidos não poderá ser removido. Um local não poderá ser removido se ele já foi usado por um evento.
+
+Um participante poderá fazer a sua inscrição (adquirir ingressos) em qualquer evento cadastrado, respeitando o limite de participantes de cada evento ou a data de realização do evento. Não é possível adquirir um ingresso de um evento que ocorreu no passado.
+
+Existem dois tipos de ingressos: Pago e Gratuito. Um ingresso pago deverá ter o valor pago no momento da compra. O valor do ingresso pago pode ser alterado a qualquer momento. Porém os valores dos ingressos pagos já vendidos não deverão ser alterados. Armazenar a data de venda dos ingressos e caso um ingresso seja removido/devolvido, esse poderá ser vendido novamente para o evento. O valor do ingresso pago entrará como saldo para do participante que comprou o ingresso. Não será possível remover/devolver um ingresso a partir data de início do evento.
+
+
 
 
 ### JSON para salvar entidades via POSTMAN
@@ -56,6 +75,4 @@
                "typeTicket": "pago"
        }
 
-## Link do Projeto no Heroku
 
-Projeto: https://api-event-poo.herokuapp.com/
