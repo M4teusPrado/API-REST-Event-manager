@@ -21,7 +21,7 @@ Projeto: https://api-event-poo.herokuapp.com/
     - [x]  Listagem Paginada 
     - [x]  Pesquisas Diversas Paginadas (filtros): Nome, Por Local do Evento, Data de Início e Descrição
 
-## ENUNCIADO
+## REGRAS DE NEGOCIOS
 
 Desenvolver um sistema para controlar eventos.
 
