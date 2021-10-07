@@ -8,6 +8,18 @@ Projeto: https://api-event-poo.herokuapp.com/
 
 ![ModeloConceitual](https://user-images.githubusercontent.com/59894662/136452598-783f001f-1e53-40df-818c-2f5d239bc911.png)
 
+### Pontuação por Tarefa concluída:
+
+- [x]  Cadastro
+- [x]  Alteração
+- [x]  Remoção
+- [x]  Pesquisa Por Id
+- [x]  Publicação no Heroku: 1 Ponto 
+    - [x]  usando o PostgreSQL.
+- [x]  Arquitetura em Camadas Usando DTOs
+- [x]  Arquitetura paginada
+    - [x]  Listagem Paginada 
+    - [x]  Pesquisas Diversas Paginadas (filtros): Nome, Por Local do Evento, Data de Início e Descrição
 
 ## ENUNCIADO
 
