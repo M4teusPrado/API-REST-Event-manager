@@ -8,7 +8,7 @@ Projeto: https://api-event-poo.herokuapp.com/
 
 ![ModeloConceitual](https://user-images.githubusercontent.com/59894662/136452598-783f001f-1e53-40df-818c-2f5d239bc911.png)
 
-### Pontuação por Tarefa concluída:
+### Rotinas concluídas:
 
 - [x]  Cadastro
 - [x]  Alteração
