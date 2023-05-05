@@ -1,29 +1,30 @@
 package eventoapp.services;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-
 import eventoapp.dto.AdminDTO;
 import eventoapp.dto.AdminGetDTO;
 import eventoapp.models.Admin;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 
 public interface AdminService {
-       
-    public Page<AdminGetDTO> getAdmins(PageRequest pageRequest);
 
-    public AdminGetDTO getAdminById(Long id);
+    Page<AdminGetDTO> getAdmins(PageRequest pageRequest);
 
-    public List<AdminGetDTO> toDTOList(List<Admin> admins);
+    AdminGetDTO getAdminDTOById(Long id);
 
-    public void deleteAdmin(Long id);
+    Admin getAdminById(Long id);
 
-    public Admin insertAdmin(AdminDTO adminDTO);
+    List<AdminGetDTO> toDTOList(List<Admin> admins);
 
-    public AdminDTO updateEvent(Long id, AdminDTO adminDTO);
+    void deleteAdmin(Long id);
 
-    public void adminDTOtoAdmin(Admin admin, AdminDTO adminDTO);
+    Admin insertAdmin(AdminDTO adminDTO);
+
+    AdminDTO updateEvent(Long id, AdminDTO adminDTO);
+
+    void adminDTOtoAdmin(Admin admin, AdminDTO adminDTO);
 
 }

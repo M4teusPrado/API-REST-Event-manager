@@ -1,10 +1,10 @@
 package eventoapp.services.functions;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.EntityNotFoundException;
-
+import eventoapp.dto.AdminDTO;
+import eventoapp.dto.AdminGetDTO;
+import eventoapp.models.Admin;
+import eventoapp.repositories.AdminRepository;
+import eventoapp.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,11 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import eventoapp.dto.AdminDTO;
-import eventoapp.dto.AdminGetDTO;
-import eventoapp.models.Admin;
-import eventoapp.repositories.AdminRepository;
-import eventoapp.services.AdminService;
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AdminServiceFunctions implements AdminService {
@@ -31,12 +29,21 @@ public class AdminServiceFunctions implements AdminService {
     }
 
     @Override
-    public AdminGetDTO getAdminById(Long id) {
+    public AdminGetDTO getAdminDTOById(Long id) {
         try {
             Admin admin = adminRepository.findById(id).get();
             return new AdminGetDTO(admin);
         } catch (Exception e) {
-            throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Administradior não encontrado");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Administradior não encontrado");
+        }
+    }
+
+    @Override
+    public Admin getAdminById(Long id) {
+        try {
+            return adminRepository.findById(id).get();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Administradior não encontrado");
         }
     }
 
@@ -57,7 +64,7 @@ public class AdminServiceFunctions implements AdminService {
     private void getAdminByEmail(AdminDTO adminDTO) {
         List<Admin> admins = adminRepository.findAdminByEmail(adminDTO.getEmail());
 
-        if(!admins.isEmpty())
+        if (!admins.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email ja cadastrado");
     }
 
@@ -70,8 +77,7 @@ public class AdminServiceFunctions implements AdminService {
             adminDTOtoAdmin(admin, adminDTO);
             admin = adminRepository.save(admin);
             return new AdminDTO(admin);
-        } 
-        catch(EntityNotFoundException ex){
+        } catch (EntityNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Administrador não encontrado");
         }
     }

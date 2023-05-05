@@ -1,42 +1,36 @@
 package eventoapp.services;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-
 import eventoapp.dto.EventDTO;
 import eventoapp.dto.EventTicketListDTO;
 import eventoapp.dto.EventUpdateDTO;
 import eventoapp.dto.TicketDTO;
 import eventoapp.models.Event;
 import eventoapp.models.Ticket;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 public interface EventService {
 
-    public Event insertEvent(Event event);
-    
-    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String startDate);
-    
-    public void verifyDateAndTime(LocalDate startDate, LocalDate endDate, LocalTime startTime,LocalTime endTime);
+    Event insertEvent(Event event);
 
-    public EventDTO getEventById(Long id);
+    Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String startDate);
 
-    public void deleteEvent(Long id);
+    EventDTO getEventById(Long id);
 
-    public EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDTO);
+    void deleteEvent(Long id);
 
-    public EventTicketListDTO getEventTicketDTO(Long id);
+    EventDTO updateEvent(Long id, EventUpdateDTO eventUpdateDTO);
 
-    public EventDTO connectPlaceInEvent(Long idEvent, Long idPlace);
+    EventTicketListDTO getEventTicketDTO(Long id);
 
-    public Ticket validateTicketAttendee(Long idEvent, TicketDTO ticketDTO);
+    EventDTO connectPlaceInEvent(Long idEvent, Long idPlace);
 
-    public List<Event> getEventsByPlace(Long id);
+    Ticket validateTicketAttendee(Long idEvent, TicketDTO ticketDTO);
 
-    public void devolutionTicket(Long idEvent, TicketDTO ticketDTO);
-    
-    // public List<EventDTO> toDTOList(List<Event> events);
+    List<Event> getEventsByPlace(Long id);
+
+    void devolutionTicket(Long idEvent, TicketDTO ticketDTO);
+
 }

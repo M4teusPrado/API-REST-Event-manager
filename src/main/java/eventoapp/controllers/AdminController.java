@@ -46,7 +46,7 @@ public class AdminController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AdminGetDTO> getAdminById(@PathVariable Long id ) {
-        return ResponseEntity.ok().body(adminService.getAdminById(id));
+        return ResponseEntity.ok().body(adminService.getAdminDTOById(id));
     }
 
     @PostMapping()
