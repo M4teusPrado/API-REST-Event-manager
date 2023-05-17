@@ -6,6 +6,7 @@ import eventoapp.models.Event;
 import eventoapp.models.Place;
 import eventoapp.models.Ticket;
 import eventoapp.models.enums.TicketType;
+import eventoapp.models.factorys.TicketFactory;
 import eventoapp.repositories.AttendeeRepository;
 import eventoapp.repositories.EventRepository;
 import eventoapp.repositories.PlaceRepository;
@@ -163,7 +164,7 @@ public class EventServiceFunctions implements EventService {
         try {
             Event event = eventRepository.getOne(id);
 
-            verifyPossibilityOfUpdate(event, LocalDate.now());
+            verifyPossibilityOfInsert(event);
 
             checkIfEmailAlreadyRegistered(eventUpdateDTO.getEmailContact());
 
@@ -190,14 +191,6 @@ public class EventServiceFunctions implements EventService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado");
         }
     }
-
-    private void verifyPossibilityOfUpdate(Event event, LocalDate today) {
-        if (event.getStartDate().isBefore(today) ||
-                (event.getStartDate().equals(today) && event.getStartTime().equals(LocalTime.now())))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é possivel atualizar evento no passado");
-    }
-
-
 
     public EventTicketListDTO getEventTicketDTO(Long id) {
 
@@ -249,7 +242,6 @@ public class EventServiceFunctions implements EventService {
         return events.stream().filter(e -> e.getPlace(id)).collect(Collectors.toList());
     }
 
-
     private Boolean validDate(Event e, Event event) {
         if (event.getStartDate().isAfter(e.getStartDate()) && event.getStartDate().isBefore(e.getEndDate()))
             return false;
@@ -271,7 +263,6 @@ public class EventServiceFunctions implements EventService {
 
     @Override
     public Ticket validateTicketAttendee(Long idEvent, TicketDTO ticketDTO) {
-        TicketType ticketType = verifyTicketType(ticketDTO.getTypeTicket());
 
         getEventById(idEvent);
         attendeeService.getAttendeeById(ticketDTO.getIdAttendee());
@@ -279,38 +270,32 @@ public class EventServiceFunctions implements EventService {
         Event event = eventRepository.getOne(idEvent);
         Attendee attendee = attendeeRepository.getOne(ticketDTO.getIdAttendee());
 
-        verifyAmountTicketsLeft(event, ticketDTO.getIdAttendee(), ticketType);
+        verifyAmountTicketsLeft(event, ticketDTO.getIdAttendee(), ticketDTO.getTypeTicket());
         verifyBalanceAttendee(attendee, event, ticketDTO.getTypeTicket());
 
-        Ticket ticket = createTicket(event, attendee, ticketDTO.getTypeTicket(), ticketType);
+        Ticket ticket = createTicket(event, attendee, ticketDTO.getTypeTicket());
 
         ticketRepository.save(ticket);
         attendeeRepository.save(attendee);
         eventRepository.save(event);
 
-
         return ticket;
     }
 
-    private Ticket createTicket(Event event, Attendee attendee, String typeTicket, TicketType ticketType) {
-        Ticket ticket = new Ticket(event, attendee, typeTicket, ticketType);
+    private Ticket createTicket(Event event, Attendee attendee, TicketType ticketType) {
+        Ticket ticket = TicketFactory.createTicket(event, attendee, ticketType);
         attendee.addTicktes(ticket);
         event.addTicket(ticket);
         return ticket;
     }
 
-    private TicketType verifyTicketType(String typeTicket) {
-        if (typeTicket.toUpperCase().trim().equals("GRATUITO") || typeTicket.toUpperCase().trim().equals("PAGO")) {
-            return TicketType.valueOf(typeTicket.toUpperCase().trim());
-        }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de ticket inválido");
-    }
+    private void verifyBalanceAttendee(Attendee attendee, Event event, TicketType typeTicket) {
 
-    private void verifyBalanceAttendee(Attendee attendee, Event event, String typeTicket) {
-        if (attendee.getBalance() < event.getPriceTickets() && typeTicket.toUpperCase().trim().equals("PAGO")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Attendee não possui saldo suficiente");
-        }
-        if (typeTicket.toUpperCase().trim().equals("PAGO")) {
+        if (typeTicket.equals(TicketType.PAGO)) {
+
+            if (attendee.getBalance() < event.getPriceTickets()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Attendee não possui saldo suficiente");
+            }
             attendee.setBalance(attendee.getBalance() - (convertToFloat(event.getPriceTickets())));
         }
     }
@@ -339,15 +324,13 @@ public class EventServiceFunctions implements EventService {
     @Override
     public void devolutionTicket(Long idEvent, TicketDTO ticketDTO) {
 
-        TicketType ticketType = verifyTicketType(ticketDTO.getTypeTicket());
-
         getEventById(idEvent);
         attendeeService.getAttendeeById(ticketDTO.getIdAttendee());
 
         Event event = eventRepository.getOne(idEvent);
         Attendee attendee = attendeeRepository.getOne(ticketDTO.getIdAttendee());
 
-        Ticket ticket = verifyTicketExists(ticketType, attendee, idEvent);
+        Ticket ticket = verifyTicketExists(ticketDTO.getTypeTicket(), attendee, idEvent);
 
         devolutionBallanceToAttendee(attendee, ticket, ticketDTO.getTypeTicket());
         devolutionTicketToEvent(event, ticket, ticketDTO.getTypeTicket());
@@ -368,21 +351,20 @@ public class EventServiceFunctions implements EventService {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket não encontrado");
     }
 
-    private void devolutionBallanceToAttendee(Attendee attendee, Ticket ticket, String typeTicket) {
+    private void devolutionBallanceToAttendee(Attendee attendee, Ticket ticket, TicketType typeTicket) {
         attendee.removeTickte(ticket.getId());
 
-        if (typeTicket.toUpperCase().trim().equals("PAGO"))
+        if (typeTicket.equals(TicketType.PAGO))
             attendee.setBalance(attendee.getBalance() + (convertToFloat(ticket.getPrice())));
     }
 
-    private void devolutionTicketToEvent(Event event, Ticket ticket, String typeTicket) {
+    private void devolutionTicketToEvent(Event event, Ticket ticket, TicketType typeTicket) {
         event.removeTicket(ticket.getId());
 
-        if (typeTicket.toUpperCase().trim().equals("PAGO")) {
+        if (typeTicket.equals(TicketType.PAGO)) {
             event.setAmountPayedTicketsSold(event.getAmountPayedTicketsSold() - 1);
         } else {
             event.setAmountFreeTicketsSold(event.getAmountFreeTicketsSold() - 1);
         }
     }
-
 }

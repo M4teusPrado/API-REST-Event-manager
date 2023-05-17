@@ -13,14 +13,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -121,7 +122,7 @@ public class EventServiceTest {
 
         event.setStartDate(LocalDate.now());
         event.setEndDate(LocalDate.now());
-        event.setStartTime(LocalTime.of(4,3));
+        event.setStartTime(LocalTime.of(4, 3));
         event.setEndTime(LocalTime.of(3, 4));
 
         exception = assertThrows(ResponseStatusException.class, () -> eventService.insertEvent(event));
@@ -160,7 +161,7 @@ public class EventServiceTest {
     }
 
     @Test
-    public void testGetEventById(){
+    public void testGetEventById() {
         when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
         EventDTO eventDTO = eventService.getEventById(1L);
 
@@ -180,16 +181,14 @@ public class EventServiceTest {
 
     @Test
     public void testDeleteEvent() {
-
         event.setAmountFreeTicketsSold(0L);
         event.setAmountPayedTicketsSold(0L);
 
         when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
         eventService.deleteEvent(1L);
 
-        verify(eventRepository, times(1)).deleteById(1l);
+        verify(eventRepository, times(1)).deleteById(1L);
     }
-
 
     @Test
     public void testDeleteEventWithTicketsSold() {
@@ -201,7 +200,4 @@ public class EventServiceTest {
 
         verify(eventRepository, never()).deleteById(1L);
     }
-
-
-
 }

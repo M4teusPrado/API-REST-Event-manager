@@ -1,21 +1,13 @@
 package eventoapp.models;
 
-import java.io.Serializable;
-import java.time.Instant;
-
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import eventoapp.models.enums.TicketType;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.Instant;
 
 @Entity
 @Setter
@@ -23,9 +15,9 @@ import lombok.Setter;
 public class Ticket implements Serializable {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Enumerated(value = EnumType.STRING)
     private TicketType type;
     private Instant date;
@@ -38,7 +30,8 @@ public class Ticket implements Serializable {
     @ManyToOne()
     private Event event;
 
-    public Ticket() { }
+    public Ticket() {
+    }
 
     public Ticket(TicketType type, Instant date, Double price, Event event, Attendee attendee) {
         this.type = type;
@@ -48,16 +41,15 @@ public class Ticket implements Serializable {
         this.attendee = attendee;
     }
 
-    public Ticket(Event event, Attendee attendee, String typeTicket, TicketType ticketType) {
+    public Ticket(Event event, Attendee attendee, TicketType ticketType) {
         this.attendee = attendee;
         this.date = Instant.now();
         this.event = event;
         this.type = ticketType;
-        
-        if (typeTicket.toUpperCase().trim().equals("PAGO")){
+
+        if (ticketType.equals(TicketType.PAGO)) {
             this.price = event.getPriceTickets();
-        }
-        else{
+        } else {
             this.price = 0.0;
         }
     }
@@ -80,13 +72,9 @@ public class Ticket implements Serializable {
             return false;
         Ticket other = (Ticket) obj;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+            return other.id == null;
+        } else return id.equals(other.id);
     }
 
-    
-    
+
 }
