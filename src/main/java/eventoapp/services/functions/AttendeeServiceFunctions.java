@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import eventoapp.models.objectsValue.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -80,7 +81,7 @@ public class AttendeeServiceFunctions implements AttendeeService {
     @Override
     public void attendeeDTOtoAttendee(Attendee attendee, AttendeeDTO attendeeDTO) {
         attendee.setName(attendeeDTO.getName());
-        attendee.setEmail(attendeeDTO.getEmail());
+        attendee.setEmail(new Email(attendeeDTO.getEmail()));
         attendee.setBalance(attendeeDTO.getBalance());
     }
 

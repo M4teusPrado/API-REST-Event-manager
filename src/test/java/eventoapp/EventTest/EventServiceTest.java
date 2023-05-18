@@ -6,6 +6,7 @@ import eventoapp.models.Event;
 import eventoapp.models.Place;
 import eventoapp.models.Ticket;
 import eventoapp.models.enums.TicketType;
+import eventoapp.models.objectsValue.Email;
 import eventoapp.repositories.EventRepository;
 import eventoapp.services.AdminService;
 import eventoapp.services.functions.EventServiceFunctions;
@@ -19,9 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,7 +68,7 @@ public class EventServiceTest {
         Admin admin = new Admin();
         admin.setId(1L);
         admin.setName("Meu admin");
-        admin.setEmail("admin@meuevento.com");
+        admin.setEmail(new Email("admin@meuevento.com"));
         event.setAdmin(admin);
 
         // Adição de um lugar ao evento
@@ -87,7 +86,6 @@ public class EventServiceTest {
         return event;
     }
 
-
     @Test
     public void testVerifyPossibilityOfInsert() {
 
@@ -99,7 +97,6 @@ public class EventServiceTest {
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
         assertEquals("Não é possivel criar evento no passado", exception.getReason());
     }
-
 
     @Test
     public void testCheckIfEmailAlreadyRegistered() {
@@ -151,7 +148,6 @@ public class EventServiceTest {
         assertEquals("preço do ingresso invalido", exception.getReason());
     }
 
-
     @Test
     public void testInsertEvent() {
         when(eventRepository.save(event)).thenReturn(event);
@@ -173,11 +169,8 @@ public class EventServiceTest {
     @Test
     public void testGetEventByIdNotFound() {
         when(eventRepository.findById(1L)).thenReturn(Optional.empty());
-        assertThrows(ResponseStatusException.class, () -> {
-            eventService.getEventById(1L);
-        });
+        assertThrows(ResponseStatusException.class, () -> eventService.getEventById(1L));
     }
-
 
     @Test
     public void testDeleteEvent() {
@@ -194,9 +187,7 @@ public class EventServiceTest {
     public void testDeleteEventWithTicketsSold() {
 
         when(eventRepository.findById(1L)).thenReturn(Optional.of(event));
-        assertThrows(ResponseStatusException.class, () -> {
-            eventService.deleteEvent(1L);
-        });
+        assertThrows(ResponseStatusException.class, () -> eventService.deleteEvent(1L));
 
         verify(eventRepository, never()).deleteById(1L);
     }

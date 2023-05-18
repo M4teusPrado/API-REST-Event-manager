@@ -3,6 +3,7 @@ package eventoapp.services.functions;
 import eventoapp.dto.AdminDTO;
 import eventoapp.dto.AdminGetDTO;
 import eventoapp.models.Admin;
+import eventoapp.models.objectsValue.Email;
 import eventoapp.repositories.AdminRepository;
 import eventoapp.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,7 @@ public class AdminServiceFunctions implements AdminService {
     @Override
     public void adminDTOtoAdmin(Admin admin, AdminDTO adminDTO) {
         admin.setName(adminDTO.getName());
-        admin.setEmail(adminDTO.getEmail());
+        admin.setEmail(new Email(adminDTO.getEmail()));
         admin.setPhoneNumber(adminDTO.getPhoneNumber());
     }
 

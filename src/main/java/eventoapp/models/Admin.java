@@ -9,6 +9,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import eventoapp.models.objectsValue.Email;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +33,7 @@ public class Admin extends BaseUser {
 
     public Admin() { }
 
-    public Admin(Long id, String name, String email, String phoneNumber) {
+    public Admin(Long id, String name, Email email, String phoneNumber) {
         super(id, name, email);
         this.phoneNumber = phoneNumber;
     }

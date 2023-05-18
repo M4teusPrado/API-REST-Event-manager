@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import eventoapp.models.objectsValue.Email;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,11 +26,11 @@ public class BaseUser implements Serializable {
     @GeneratedValue( strategy = GenerationType.IDENTITY) 
     private Long id;
     private String name;
-    private String email;
+    private Email email;
 
     public BaseUser() { }
 
-    public BaseUser(Long id, String name, String email) {
+    public BaseUser(Long id, String name, Email email) {
         this.id = id;
         this.name = name;
         this.email = email;

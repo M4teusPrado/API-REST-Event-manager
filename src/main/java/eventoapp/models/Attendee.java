@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import eventoapp.models.objectsValue.Email;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +28,7 @@ public class Attendee extends BaseUser {
 
     public Attendee() { }
 
-    public Attendee(Long id, String name, String email, float balance) {
+    public Attendee(Long id, String name, Email email, float balance) {
         super(id, name, email);
         this.balance = balance;
     }
