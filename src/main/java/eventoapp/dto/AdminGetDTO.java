@@ -22,7 +22,7 @@ public class AdminGetDTO {
     public AdminGetDTO(Admin admin) {
         this.id             = admin.getId();
         this.name           = admin.getName();
-        this.email          = admin.getEmail().getValue();
+        this.email          = admin.getEmail().getEmail();
         this.phoneNumber    = admin.getPhoneNumber();
         this.events         = admin.getEvents();
     }

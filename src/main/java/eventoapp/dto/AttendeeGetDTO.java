@@ -20,7 +20,7 @@ public class AttendeeGetDTO {
     public AttendeeGetDTO(Attendee attendee) {
         this.id         = attendee.getId();
         this.name       = attendee.getName();
-        this.email      = attendee.getEmail().getValue();
+        this.email      = attendee.getEmail().getEmail();
         this.balance    = attendee.getBalance();
         this.tickets    = attendee.getTickets();
     }

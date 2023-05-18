@@ -1,16 +1,24 @@
 package eventoapp.models.objectsValue;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class Email {
-    private final String value;
+
+    @Column(name = "email")
+    private String email;
+
+    public Email(){}
+
 
     public Email(String email) {
         if (!isValidEmail(email)) {
             throw new IllegalArgumentException("Invalid email address");
         }
 
-        this.value = email;
+        this.email = email;
     }
 
     private boolean isValidEmail(String email) {
@@ -22,7 +30,7 @@ public class Email {
         return Pattern.matches(emailRegex, email);
     }
 
-    public String getValue() {
-        return value;
+    public String getEmail() {
+        return email;
     }
 }

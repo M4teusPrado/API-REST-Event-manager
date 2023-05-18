@@ -2,16 +2,12 @@ package eventoapp.models;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 
 import eventoapp.models.objectsValue.Email;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Getter
@@ -26,6 +22,8 @@ public class BaseUser implements Serializable {
     @GeneratedValue( strategy = GenerationType.IDENTITY) 
     private Long id;
     private String name;
+
+    @Embedded
     private Email email;
 
     public BaseUser() { }

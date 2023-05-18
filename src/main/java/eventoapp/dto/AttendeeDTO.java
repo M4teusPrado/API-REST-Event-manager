@@ -27,7 +27,7 @@ public class AttendeeDTO {
 
     public AttendeeDTO(Attendee attendee) {
         this.name = attendee.getName();
-        this.email = attendee.getEmail().getValue();
+        this.email = attendee.getEmail().getEmail();
         this.balance = attendee.getBalance();
     }
 
