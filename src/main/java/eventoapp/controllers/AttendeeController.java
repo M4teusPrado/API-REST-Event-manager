@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import eventoapp.dto.AttendeeDTO;
-import eventoapp.dto.AttendeeGetDTO;
-import eventoapp.models.Attendee;
-import eventoapp.services.AttendeeService;
+import eventoapp.domain.dto.AttendeeDTO;
+import eventoapp.domain.dto.AttendeeGetDTO;
+import eventoapp.domain.entities.Attendee;
+import eventoapp.domain.services.AttendeeService;
 
 @RestController
 @RequestMapping("/attendees")

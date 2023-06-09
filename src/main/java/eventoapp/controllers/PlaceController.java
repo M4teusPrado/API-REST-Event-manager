@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import eventoapp.dto.PlaceDTO;
-import eventoapp.dto.PlaceGetDTO;
-import eventoapp.models.Place;
-import eventoapp.services.PlaceService;
+import eventoapp.domain.dto.PlaceDTO;
+import eventoapp.domain.dto.PlaceGetDTO;
+import eventoapp.domain.entities.Place;
+import eventoapp.domain.services.PlaceService;
 
 @RestController
 @RequestMapping("/places")

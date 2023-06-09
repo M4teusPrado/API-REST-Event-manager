@@ -1,15 +1,15 @@
 package eventoapp.EventTest;
 
-import eventoapp.dto.EventDTO;
-import eventoapp.models.Admin;
-import eventoapp.models.Event;
-import eventoapp.models.Place;
-import eventoapp.models.Ticket;
-import eventoapp.models.enums.TicketType;
-import eventoapp.models.objectsValue.Email;
-import eventoapp.repositories.EventRepository;
-import eventoapp.services.AdminService;
-import eventoapp.services.functions.EventServiceFunctions;
+import eventoapp.domain.dto.EventDTO;
+import eventoapp.domain.entities.Admin;
+import eventoapp.domain.entities.Event;
+import eventoapp.domain.entities.Place;
+import eventoapp.domain.entities.Ticket;
+import eventoapp.domain.entities.enums.TicketType;
+import eventoapp.domain.entities.objectsValue.Email;
+import eventoapp.domain.repositories.EventRepository;
+import eventoapp.domain.services.AdminService;
+import eventoapp.domain.services.functions.EventServiceFunctions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -191,4 +191,5 @@ public class EventServiceTest {
 
         verify(eventRepository, never()).deleteById(1L);
     }
+
 }
