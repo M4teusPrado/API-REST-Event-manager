@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: eventoapp.EventoappApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.049 s - in eventoapp.EventoappApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.003 s - in eventoapp.EventoappApplicationTests

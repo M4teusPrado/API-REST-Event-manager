@@ -192,4 +192,85 @@ public class EventServiceTest {
         verify(eventRepository, never()).deleteById(1L);
     }
 
+
+
+
+    @Test
+    public void testValidDate() {
+
+        // Crie um evento de referência
+        Event event1 = new Event();
+        event1.setStartDate(LocalDate.of(2023, 6, 10));
+        event1.setEndDate(LocalDate.of(2023, 6, 12));
+        event1.setStartTime(LocalTime.of(10, 0));
+        event1.setEndTime(LocalTime.of(12, 0));
+
+        // Crie um evento que se sobrepõe ao evento de referência (inválido)
+        Event event2 = new Event();
+        event2.setStartDate(LocalDate.of(2023, 6, 11));
+        event2.setEndDate(LocalDate.of(2023, 6, 13));
+        event2.setStartTime(LocalTime.of(11, 0));
+        event2.setEndTime(LocalTime.of(13, 0));
+
+        // Chame o método público que utiliza o método validDate
+        boolean isValid = eventService.validDate(event1, event2);
+
+        // Verifique se o resultado é o esperado (deve ser false, pois os eventos se sobrepõem)
+        assertFalse(isValid);
+    }
+
+
+    @Test
+    public void testVerifyAmountTicketsLeft() {
+
+
+        Long idAttendee = 1L;
+
+
+        TicketType typeTicket = TicketType.GRATUITO;
+        event.setAmountFreeTicketsSold(0L);
+
+        eventService.verifyAmountTicketsLeft(event, idAttendee, typeTicket);
+
+        event.setAmountFreeTicketsSold(event.getAmountFreeTickets());
+
+
+        TicketType finalTypeTicket = typeTicket;
+        ResponseStatusException exceptionFreeTickets = assertThrows(ResponseStatusException.class, () ->
+                eventService.verifyAmountTicketsLeft(event, idAttendee, finalTypeTicket));
+        assertEquals(HttpStatus.BAD_REQUEST, exceptionFreeTickets.getStatus());
+        assertEquals("Tickets grátuitos esgotados", exceptionFreeTickets.getReason());
+
+
+
+        // Test case: Tickets pagos, tickets available
+        typeTicket = TicketType.PAGO;
+        event.setAmountPayedTicketsSold(0L);
+
+        // Call the method to test
+        eventService.verifyAmountTicketsLeft(event, idAttendee, typeTicket);
+
+        // No exception should be thrown
+
+        // Test case: Tickets pagos, tickets sold out
+        event.setAmountPayedTicketsSold(event.getAmountPayedTickets());
+
+        // Call the method to test and expect a ResponseStatusException with BAD_REQUEST status
+        TicketType finalTypeTicket1 = typeTicket;
+        ResponseStatusException exceptionPayedTickets = assertThrows(ResponseStatusException.class, () ->
+                eventService.verifyAmountTicketsLeft(event, idAttendee, finalTypeTicket1));
+        assertEquals(HttpStatus.BAD_REQUEST, exceptionPayedTickets.getStatus());
+        assertEquals("Tickets pagos esgotados", exceptionPayedTickets.getReason());
+
+        // Test case: Invalid ticket type
+        typeTicket = null;
+
+        // Call the method to test and expect a ResponseStatusException with BAD_REQUEST status
+        TicketType finalTypeTicket2 = typeTicket;
+        ResponseStatusException exceptionInvalidTicketType = assertThrows(ResponseStatusException.class, () ->
+                eventService.verifyAmountTicketsLeft(event, idAttendee, finalTypeTicket2));
+        assertEquals(HttpStatus.BAD_REQUEST, exceptionInvalidTicketType.getStatus());
+        assertEquals("Tipo de ticket inválido", exceptionInvalidTicketType.getReason());
+    }
+
 }

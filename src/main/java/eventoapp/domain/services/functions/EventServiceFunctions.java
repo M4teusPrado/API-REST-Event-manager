@@ -242,23 +242,25 @@ public class EventServiceFunctions implements EventService {
         return events.stream().filter(e -> e.getPlace(id)).collect(Collectors.toList());
     }
 
-    private Boolean validDate(Event e, Event event) {
-        if (event.getStartDate().isAfter(e.getStartDate()) && event.getStartDate().isBefore(e.getEndDate()))
-            return false;
+    public boolean validDate(Event e, Event event) {
+        LocalDate startDate = event.getStartDate();
+        LocalDate endDate = event.getEndDate();
+        LocalTime startTime = event.getStartTime();
+        LocalTime endTime = event.getEndTime();
 
-        if (event.getEndDate().isAfter(e.getStartDate()) && event.getEndDate().isBefore(e.getEndDate()))
-            return false;
+        if (startDate.isAfter(e.getEndDate()) || endDate.isBefore(e.getStartDate())) {
+            return true; // Intervalo de datas não se sobrepõe, é válido
+        }
 
-        if (event.getStartDate().isBefore(e.getStartDate()) && event.getEndDate().isAfter(e.getEndDate()))
-            return false;
+        if (startDate.isEqual(e.getEndDate()) && startTime.isAfter(e.getEndTime())) {
+            return true; // Início do evento é após o término do evento `e`, é válido
+        }
 
-        if (event.getStartDate().equals(e.getEndDate()))
-            if (event.getStartTime().isBefore(e.getEndTime()))
-                return false;
+        if (endDate.isEqual(e.getStartDate()) && endTime.isBefore(e.getStartTime())) {
+            return true; // Término do evento é antes do início do evento `e`, é válido
+        }
 
-        if (event.getEndDate().equals(e.getStartDate()))
-            return !event.getEndTime().isAfter(e.getStartTime());
-        return true;
+        return false; // Casos de sobreposição de datas, é inválido
     }
 
     @Override
@@ -304,7 +306,7 @@ public class EventServiceFunctions implements EventService {
         return doubleValue == null ? null : doubleValue.floatValue();
     }
 
-    private void verifyAmountTicketsLeft(Event event, Long idAttendee, TicketType typeTicket) {
+    public void verifyAmountTicketsLeft(Event event, Long idAttendee, TicketType typeTicket) {
         if (TicketType.GRATUITO == typeTicket) {
             if (event.getAmountFreeTickets().compareTo(event.getAmountFreeTicketsSold()) <= 0) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tickets grátuitos esgotados");

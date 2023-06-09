@@ -1,2 +1,3 @@
 eventoapp\EventoappApplicationTests.class
+eventoapp\EventTest\EventControllerTest.class
 eventoapp\EventTest\EventServiceTest.class
