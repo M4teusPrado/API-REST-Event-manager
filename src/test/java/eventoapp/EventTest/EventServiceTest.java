@@ -1,15 +1,15 @@
 package eventoapp.EventTest;
 
-import eventoapp.dto.EventDTO;
-import eventoapp.models.Admin;
-import eventoapp.models.Event;
-import eventoapp.models.Place;
-import eventoapp.models.Ticket;
-import eventoapp.models.enums.TicketType;
-import eventoapp.models.objectsValue.Email;
-import eventoapp.repositories.EventRepository;
-import eventoapp.services.AdminService;
-import eventoapp.services.functions.EventServiceFunctions;
+import eventoapp.domain.dto.EventDTO;
+import eventoapp.domain.entities.Admin;
+import eventoapp.domain.entities.Event;
+import eventoapp.domain.entities.Place;
+import eventoapp.domain.entities.Ticket;
+import eventoapp.domain.entities.enums.TicketType;
+import eventoapp.domain.entities.objectsValue.Email;
+import eventoapp.domain.repositories.EventRepository;
+import eventoapp.domain.services.AdminService;
+import eventoapp.domain.services.functions.EventServiceFunctions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -190,5 +190,58 @@ public class EventServiceTest {
         assertThrows(ResponseStatusException.class, () -> eventService.deleteEvent(1L));
 
         verify(eventRepository, never()).deleteById(1L);
+    }
+
+    @Test
+    public void testValidDate() {
+        EventServiceFunctions eventService = new EventServiceFunctions(eventRepository, adminService);
+
+        // Crie um evento existente
+        Event existingEvent = buildEvent();
+        eventRepository.save(existingEvent);
+
+        // Crie um novo evento para teste
+        Event newEvent = buildEvent();
+        newEvent.setStartDate(LocalDate.of(2023, 10, 15));
+        newEvent.setEndDate(LocalDate.of(2023, 10, 25));
+        newEvent.setStartTime(LocalTime.of(10, 0));
+        newEvent.setEndTime(LocalTime.of(12, 0));
+
+        // Teste um evento que tem data e hora totalmente diferentes do evento existente
+        assertTrue(eventService.validDate(existingEvent, newEvent));
+
+        // Teste um evento que tem a mesma data de início que o evento existente, mas horário anterior
+        newEvent.setStartDate(existingEvent.getStartDate());
+        newEvent.setStartTime(LocalTime.of(8, 0));
+        assertTrue(eventService.validDate(existingEvent, newEvent));
+
+        // Teste um evento que tem a mesma data de término que o evento existente, mas horário posterior
+        newEvent.setStartDate(LocalDate.of(2023, 10, 10));
+        newEvent.setEndDate(existingEvent.getEndDate());
+        newEvent.setEndTime(LocalTime.of(20, 0));
+        assertTrue(eventService.validDate(existingEvent, newEvent));
+
+        // Teste um evento que tem a mesma data de início e término que o evento existente, mas horário incompatível
+        newEvent.setStartDate(existingEvent.getStartDate());
+        newEvent.setEndDate(existingEvent.getEndDate());
+        newEvent.setStartTime(LocalTime.of(13, 0));
+        newEvent.setEndTime(LocalTime.of(15, 0));
+        assertFalse(eventService.validDate(existingEvent, newEvent));
+
+        // Teste um evento que tem uma data de início logo após a data de término do evento existente
+        newEvent.setStartDate(existingEvent.getEndDate().plusDays(1));
+        newEvent.setEndDate(newEvent.getStartDate().plusDays(5));
+        assertTrue(eventService.validDate(existingEvent, newEvent));
+
+        // Teste um evento que tem uma data de término logo antes da data de início do evento existente, com horário posterior
+        newEvent.setStartDate(existingEvent.getStartDate().minusDays(5));
+        newEvent.setEndDate(existingEvent.getStartDate().minusDays(1));
+        newEvent.setEndTime(LocalTime.of(14, 0));
+        assertTrue(eventService.validDate(existingEvent, newEvent));
+
+        // Teste um evento que tem a mesma data de término que o evento existente, mas horário incompatível
+        newEvent.setEndDate(existingEvent.getEndDate());
+        newEvent.setEndTime(LocalTime.of(9, 0));
+        assertFalse(eventService.validDate(existingEvent, newEvent));
     }
 }

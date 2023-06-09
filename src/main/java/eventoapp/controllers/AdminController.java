@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import eventoapp.dto.AdminDTO;
-import eventoapp.dto.AdminGetDTO;
-import eventoapp.models.Admin;
-import eventoapp.services.AdminService;
+import eventoapp.domain.dto.AdminDTO;
+import eventoapp.domain.dto.AdminGetDTO;
+import eventoapp.domain.entities.Admin;
+import eventoapp.domain.services.AdminService;
 
 @RestController
 @RequestMapping("/admins")

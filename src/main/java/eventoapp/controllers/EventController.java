@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import eventoapp.dto.EventDTO;
-import eventoapp.dto.EventTicketListDTO;
-import eventoapp.dto.EventUpdateDTO;
-import eventoapp.dto.TicketDTO;
-import eventoapp.models.Event;
-import eventoapp.models.Ticket;
-import eventoapp.services.EventService;
+import eventoapp.domain.dto.EventDTO;
+import eventoapp.domain.dto.EventTicketListDTO;
+import eventoapp.domain.dto.EventUpdateDTO;
+import eventoapp.domain.dto.TicketDTO;
+import eventoapp.domain.entities.Event;
+import eventoapp.domain.entities.Ticket;
+import eventoapp.domain.services.EventService;
 
 @RestController
 @RequestMapping("/events")
