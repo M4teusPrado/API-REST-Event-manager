@@ -23,6 +23,10 @@ public class AdminServiceFunctions implements AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
+    public AdminServiceFunctions(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
+    }
+
     @Override
     public Page<AdminGetDTO> getAdmins(PageRequest pageRequest) {
         Page<Admin> admins = adminRepository.findAdminPageable(pageRequest);

@@ -84,6 +84,16 @@
 						</goals>
 					</execution>
 				</executions>
+
+
+				<configuration>
+					<excludes>
+						<!-- Exclude class from test coverage -->
+						<exclude>**/eventoapp/error/**</exclude>
+						<exclude>**/eventoapp/domain/dto/**</exclude>
+					</excludes>
+				</configuration>
+
 			</plugin>
 		</plugins>
 	</build>

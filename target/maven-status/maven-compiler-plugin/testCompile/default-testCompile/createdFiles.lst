@@ -1,3 +1,4 @@
+eventoapp\eventTest\EventControllerTest.class
 eventoapp\EventoappApplicationTests.class
-eventoapp\EventTest\EventControllerTest.class
-eventoapp\EventTest\EventServiceTest.class
+eventoapp\adminTest\AdminServiceTest.class
+eventoapp\eventTest\EventServiceTest.class
