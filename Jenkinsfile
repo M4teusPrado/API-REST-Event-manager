@@ -26,19 +26,6 @@ pipeline {
       steps {
         bat 'curl http://localhost:8080'
       }
-
-       post {
-          always {
-              // Realizar a análise de cobertura de teste
-              // Salvar o resultado da cobertura em uma variável
-              sh 'coverage_command' // Comando para gerar a cobertura e salvá-la em um arquivo
-              script {
-                  def cobertura = sh(script: "grep 'coverage:' coverage_file | awk '{print \$2}'", returnStdout: true).trim()
-                  env.COBERTURA = cobertura
-              }
-          }
-       }
-
     }
   }
 
