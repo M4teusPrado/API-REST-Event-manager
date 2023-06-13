@@ -47,7 +47,11 @@ pipeline {
             expression { currentBuild.result == 'SUCCESS' && env.COBERTURA.toFloat() >= 30 }
         }
 
-        echo 'DEU CERTO'
+        steps {
+
+            echo 'DEU CERTO'
+        }
+
     }
   }
 
