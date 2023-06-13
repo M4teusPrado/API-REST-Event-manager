@@ -10,7 +10,7 @@ services:
       - db-volume:/var/lib/postgresql/data
 
   api:
-    image: eventoapp/eventoapp
+    image: mateussp18/eventoapp
     environment:
       DB_HOST: database
     ports:
