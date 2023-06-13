@@ -27,7 +27,6 @@ pipeline {
         bat 'curl http://localhost:8080'
       }
 
-
        post {
           always {
               // Realizar a análise de cobertura de teste
@@ -39,18 +38,6 @@ pipeline {
               }
           }
        }
-
-    }
-
-    stage('Deploy to Prod') {
-        when {
-            expression { currentBuild.result == 'SUCCESS' && env.COBERTURA.toFloat() >= 30 }
-        }
-
-        steps {
-
-            echo 'DEU CERTO'
-        }
 
     }
   }
