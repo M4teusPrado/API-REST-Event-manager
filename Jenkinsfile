@@ -27,17 +27,4 @@ pipeline {
         bat 'curl http://localhost:8080'
       }
     }
-
-    stage('Build') {
-       steps {
-          script {
-             // Execute os comandos necessários para construir a aplicação no ambiente de desenvolvimento (DEV)
-             sh 'mvn clean package' // Comando Maven para compilar e empacotar a aplicação em um arquivo JAR
-          }
-       }
-    }
-
-
-  }
-
 }
