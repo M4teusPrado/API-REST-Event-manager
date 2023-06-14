@@ -8,7 +8,7 @@ pipeline {
           docker info
           docker compose version
           curl --version
-          '''
+        '''
       }
     }
     stage('Prune Docker data') {
@@ -27,4 +27,5 @@ pipeline {
         bat 'curl http://localhost:8080'
       }
     }
+  }
 }
